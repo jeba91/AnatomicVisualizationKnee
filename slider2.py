@@ -8,6 +8,7 @@ def main():
 	# - Renderer
 	# - RenderWindow
 	# - RenderWindowInteractor
+
 	colors = vtk.vtkNamedColors()
 	colors.SetColor("SkinColor", [144, 125, 64, 255])
 	colors.SetColor("BkgColor", [51, 77, 102, 255])
@@ -39,6 +40,9 @@ def main():
 	skinExtractor = vtk.vtkMarchingCubes()
 	skinExtractor.SetInputConnection(source.GetOutputPort())
 	skinExtractor.SetValue(1, 100)
+	skinExtractor.SetValue(2, 400)
+	skinExtractor.SetValue(3, 600)
+	skinExtractor.SetValue(4, 800)
 	skinStripper = vtk.vtkStripper()
 	skinStripper.SetInputConnection(skinExtractor.GetOutputPort())
 	skinMapper = vtk.vtkPolyDataMapper()
@@ -56,11 +60,11 @@ def main():
 
 
 
-	def showBones(obj, ev):
-	    print("Before Event")
-	    skinMapper.ScalarVisibilityOff()
-	    print('ga nou uit')
-	    renWin.Render()
+	# def showBones(obj, ev):
+	#     print("Before Event")
+	#     skinMapper.ScalarVisibilityOff()
+	#     print('ga nou uit')
+	#     renWin.Render()
 
 	# Setup a slider widget for each varying parameter
 	tubeWidth = 0.008
@@ -70,9 +74,9 @@ def main():
 
 	sliderRepN1 = vtk.vtkSliderRepresentation2D()
 
-	sliderRepN1.SetMinimumValue(0.0)
-	sliderRepN1.SetMaximumValue(1000.0)
-	sliderRepN1.SetValue(100.0)
+	sliderRepN1.SetMinimumValue(0)
+	sliderRepN1.SetMaximumValue(1200)
+	sliderRepN1.SetValue(100)
 	sliderRepN1.SetTitleText("Skin extractor value")
 
 	sliderRepN1.GetPoint1Coordinate().SetCoordinateSystemToNormalizedDisplay()
