@@ -45,6 +45,9 @@ def main():
 	source = vtk.vtkDataSetReader()
 	source.SetFileName(knee_list[0])
 
+    bounds = source.GetOutput().GetBounds()		
+    print(bounds)
+
 	# force the source to read the data set so that we can obtain its scalar range
 	source.Update()
 	srange = source.GetOutput().GetScalarRange()
@@ -64,7 +67,7 @@ def main():
 	# and another color for bone (1150 and over).
 	volumeCTF = vtk.vtkColorTransferFunction()
 	volumeCTF.AddRGBPoint(0,    0.0, 0.0, 0.0)
-	volumeCTF.AddRGBPoint(50,  1.0, 0.5, 0.3)
+	volumeCTF.AddRGBPoint(150,  1.0, 0.5, 0.3)
 	volumeCTF.AddRGBPoint(300, 1.0, 0.5, 0.3)
 	volumeCTF.AddRGBPoint(900, 1.0, 1.0, 0.9)
 
@@ -72,7 +75,7 @@ def main():
 	# of different tissue types.
 	volumeOTF = vtk.vtkPiecewiseFunction()
 	volumeOTF.AddPoint(0,    0.00)
-	volumeOTF.AddPoint(50,  0.05)
+	volumeOTF.AddPoint(150,  0.05)
 	volumeOTF.AddPoint(300, 0.05)
 	volumeOTF.AddPoint(900, 0.85)
 
