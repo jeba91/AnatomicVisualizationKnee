@@ -222,6 +222,21 @@ class ChangeRenderStyle():
         ren.AddActor(skinActor)
         ren.AddActor(muscleActor)
 
+def createSliderStyle(min,max,value,point1,point2,title,dim):
+  SliderStyle = vtk.vtkSliderRepresentation2D()
+  SliderStyle.SetMinimumValue(min)
+  SliderStyle.SetMaximumValue(max)
+  SliderStyle.SetValue(value)
+  SliderStyle.SetTitleText(title)
+  SliderStyle.GetPoint1Coordinate().SetCoordinateSystemToNormalizedDisplay()
+  SliderStyle.GetPoint1Coordinate().SetValue(point1[0], point1[1])
+  SliderStyle.GetPoint2Coordinate().SetCoordinateSystemToNormalizedDisplay()
+  SliderStyle.GetPoint2Coordinate().SetValue(point2[0], point2[1])
+  SliderStyle.SetTubeWidth(dim[0])
+  SliderStyle.SetSliderLength(dim[1])
+  SliderStyle.SetTitleHeight(dim[2])
+  SliderStyle.SetLabelHeight(dim[3])
+  return SliderStyle
 
 
 knee_list   = ['knee1_1.vtk','knee1_2.vtk','knee1_3.vtk','knee1_4.vtk','knee1_5.vtk','knee1_6.vtk','knee1_7.vtk']
@@ -301,144 +316,62 @@ ren.AddActor(muscleActor)
 
 
 # make slider
-tubeWidth = 0.008
-sliderLength = 0.008
-titleHeight = 0.03
-labelHeight = 0.02
-
-sliderRepN1 = vtk.vtkSliderRepresentation2D()
-
-sliderRepN1.SetMinimumValue(0)
-sliderRepN1.SetMaximumValue(7)
-sliderRepN1.SetValue(0)
-sliderRepN1.SetTitleText("Knee flexion")
-
-sliderRepN1.GetPoint1Coordinate().SetCoordinateSystemToNormalizedDisplay()
-sliderRepN1.GetPoint1Coordinate().SetValue(.1, .1)
-sliderRepN1.GetPoint2Coordinate().SetCoordinateSystemToNormalizedDisplay()
-sliderRepN1.GetPoint2Coordinate().SetValue(.9, .1)
-
-sliderRepN1.SetTubeWidth(tubeWidth)
-sliderRepN1.SetSliderLength(sliderLength)
-sliderRepN1.SetTitleHeight(titleHeight)
-sliderRepN1.SetLabelHeight(labelHeight)
+StyleDim = [0.008,0.008,0.03,0.02]
+StyleN1 = createSliderStyle(0,7,0,[0.1,0.1],[0.9,0.1], "Knee flexion", StyleDim)
 
 sliderWidgetN1 = vtk.vtkSliderWidget()
 sliderWidgetN1.SetInteractor(iren)
-sliderWidgetN1.SetRepresentation(sliderRepN1)
+sliderWidgetN1.SetRepresentation(StyleN1)
 sliderWidgetN1.SetAnimationModeToAnimate()
 sliderWidgetN1.EnabledOn()
 
 sliderWidgetN1.AddObserver(vtk.vtkCommand.InteractionEvent, SliderCallbackN1(knee, bones, muscle))
 
-# slider for opacity of the skin:
-tubeWidth = 0.008
-sliderLength = 0.008
-titleHeight = 0.015
-labelHeight = 0.015
-
 ### Skin Opacity Slider ###
-sliderSkin = vtk.vtkSliderRepresentation2D()
-
-sliderSkin.SetMinimumValue(0)
-sliderSkin.SetMaximumValue(100)
-sliderSkin.SetValue(20)
-sliderSkin.SetTitleText("Skin opacity")
-
-sliderSkin.GetPoint1Coordinate().SetCoordinateSystemToNormalizedDisplay()
-sliderSkin.GetPoint1Coordinate().SetValue(.7, 0.9)
-sliderSkin.GetPoint2Coordinate().SetCoordinateSystemToNormalizedDisplay()
-sliderSkin.GetPoint2Coordinate().SetValue(.9, .90)
-
-sliderSkin.SetTubeWidth(tubeWidth)
-sliderSkin.SetSliderLength(sliderLength)
-sliderSkin.SetTitleHeight(titleHeight)
-sliderSkin.SetLabelHeight(labelHeight)
+StyleDim = [0.008,0.008,0.015,0.015]
+StyleSkin = createSliderStyle(0,100,20,[0.7,0.9],[0.9,0.9], "Skin opacity", StyleDim)
 
 sliderSkinWidget = vtk.vtkSliderWidget()
 sliderSkinWidget.SetInteractor(iren)
-sliderSkinWidget.SetRepresentation(sliderSkin)
+sliderSkinWidget.SetRepresentation(StyleSkin)
 sliderSkinWidget.SetAnimationModeToAnimate()
 sliderSkinWidget.EnabledOn()
 
 sliderSkinWidget.AddObserver(vtk.vtkCommand.InteractionEvent, SliderOpacity(knee))
 
 ### Bone Opacity Slider ###
-sliderBone = vtk.vtkSliderRepresentation2D()
-
-sliderBone.SetMinimumValue(0)
-sliderBone.SetMaximumValue(100)
-sliderBone.SetValue(20)
-sliderBone.SetTitleText("Bone opacity")
-
-sliderBone.GetPoint1Coordinate().SetCoordinateSystemToNormalizedDisplay()
-sliderBone.GetPoint1Coordinate().SetValue(.7, 0.8)
-sliderBone.GetPoint2Coordinate().SetCoordinateSystemToNormalizedDisplay()
-sliderBone.GetPoint2Coordinate().SetValue(.9, .8)
-
-sliderBone.SetTubeWidth(tubeWidth)
-sliderBone.SetSliderLength(sliderLength)
-sliderBone.SetTitleHeight(titleHeight)
-sliderBone.SetLabelHeight(labelHeight)
+StyleDim = [0.008,0.008,0.015,0.015]
+styleBone = createSliderStyle(0,100,20,[0.7,0.8],[0.9,0.8], "Bone opacity", StyleDim)
 
 sliderBoneWidget = vtk.vtkSliderWidget()
 sliderBoneWidget.SetInteractor(iren)
-sliderBoneWidget.SetRepresentation(sliderBone)
+sliderBoneWidget.SetRepresentation(styleBone)
 sliderBoneWidget.SetAnimationModeToAnimate()
 sliderBoneWidget.EnabledOn()
 
 sliderBoneWidget.AddObserver(vtk.vtkCommand.InteractionEvent, BoneOpacity(knee))
 
 ### Muscle Opacity Slider ###
-sliderMuscle = vtk.vtkSliderRepresentation2D()
-
-sliderMuscle.SetMinimumValue(0)
-sliderMuscle.SetMaximumValue(100)
-sliderMuscle.SetValue(20)
-sliderMuscle.SetTitleText("Muscle opacity")
-
-sliderMuscle.GetPoint1Coordinate().SetCoordinateSystemToNormalizedDisplay()
-sliderMuscle.GetPoint1Coordinate().SetValue(.7, 0.7)
-sliderMuscle.GetPoint2Coordinate().SetCoordinateSystemToNormalizedDisplay()
-sliderMuscle.GetPoint2Coordinate().SetValue(.9, .7)
-
-sliderMuscle.SetTubeWidth(tubeWidth)
-sliderMuscle.SetSliderLength(sliderLength)
-sliderMuscle.SetTitleHeight(titleHeight)
-sliderMuscle.SetLabelHeight(labelHeight)
+StyleDim = [0.008,0.008,0.015,0.015]
+styleMuscle = createSliderStyle(0,100,20,[0.7,0.7],[0.9,0.7], "Muscle opacity", StyleDim)
 
 sliderMuscleWidget = vtk.vtkSliderWidget()
 sliderMuscleWidget.SetInteractor(iren)
-sliderMuscleWidget.SetRepresentation(sliderMuscle)
+sliderMuscleWidget.SetRepresentation(styleMuscle)
 sliderMuscleWidget.SetAnimationModeToAnimate()
 sliderMuscleWidget.EnabledOn()
 
 sliderMuscleWidget.AddObserver(vtk.vtkCommand.InteractionEvent, MuscleOpacity(muscle))
 
 ### Render Style Slider ###
-SliderStyle = vtk.vtkSliderRepresentation2D()
-
-SliderStyle.SetMinimumValue(0)
-SliderStyle.SetMaximumValue(1)
-SliderStyle.SetValue(0)
-SliderStyle.SetTitleText("Render Style")
-
-SliderStyle.GetPoint1Coordinate().SetCoordinateSystemToNormalizedDisplay()
-SliderStyle.GetPoint1Coordinate().SetValue(0.7, 0.6)
-SliderStyle.GetPoint2Coordinate().SetCoordinateSystemToNormalizedDisplay()
-SliderStyle.GetPoint2Coordinate().SetValue(0.9, 0.6)
-
-SliderStyle.SetTubeWidth(tubeWidth)
-SliderStyle.SetSliderLength(sliderLength)
-SliderStyle.SetTitleHeight(titleHeight)
-SliderStyle.SetLabelHeight(labelHeight)
+StyleDim = [0.008,0.008,0.015,0.015]
+styleStyle = createSliderStyle(0,1,0,[0.7,0.6],[0.9,0.6], "Render Style", StyleDim)
 
 SliderStyleWidget = vtk.vtkSliderWidget()
 SliderStyleWidget.SetInteractor(iren)
-SliderStyleWidget.SetRepresentation(SliderStyle)
+SliderStyleWidget.SetRepresentation(styleStyle)
 SliderStyleWidget.SetAnimationModeToAnimate()
 SliderStyleWidget.EnabledOn()
-
 SliderStyleWidget.AddObserver(vtk.vtkCommand.InteractionEvent, ChangeRenderStyle(muscle))
 
 renWin.Render()
