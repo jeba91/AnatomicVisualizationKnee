@@ -1,5 +1,6 @@
 import vtk
 import sys
+import time
 
 def createVolumeRender(File, ScalarList, ColorList, OpacList, PieceList):
   volumeMapper = vtk.vtkGPUVolumeRayCastMapper()
@@ -102,6 +103,15 @@ class MyInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
           ren.RemoveActor(boneActor)
           iren.GetRenderWindow().Render()
           self.bones = False
+      if key == 'p':
+        print("let start this thing")
+        for i in range(len(muscle_list)):
+          knee.SetFileName(knee_list[i])
+          bones.SetFileName(bone_list[i])
+          muscle.SetFileName(muscle_list[i])
+          iren.GetRenderWindow().Render()
+
+
 
 class SliderCallbackN1():
     def __init__(self, knee, bones, muscle):
@@ -165,6 +175,7 @@ class BoneOpacity():
       value = sliderWidget.GetRepresentation().GetValue()
       if value >= 0 and value < 100:
 
+
         print("i want to change this slide")
         boneActor.GetProperty().SetOpacity(value/100)
 
@@ -180,6 +191,14 @@ class MuscleOpacity():
       value = sliderWidget.GetRepresentation().GetValue()
       if value >= 0 and value < 100:
         muscleActor.GetProperty().SetOpacity(value/100)
+        volumeGradientOpacity.AddPoint(100, 1/value)
+        volumeProperty.SetScalarOpacity(volumeScalarOpacity)
+
+        volume.SetProperty(volumeProperty)
+        ren.AddViewProp(volume)
+
+        # ren.AddActor(skinActor)
+        renWin.Render()
 
 class ChangeRenderStyle():
     def __init__(self, muscle):
@@ -202,6 +221,7 @@ class ChangeRenderStyle():
         ren.AddActor(boneActor)
         ren.AddActor(skinActor)
         ren.AddActor(muscleActor)
+
 
 
 knee_list   = ['knee1_1.vtk','knee1_2.vtk','knee1_3.vtk','knee1_4.vtk','knee1_5.vtk','knee1_6.vtk','knee1_7.vtk']
@@ -255,7 +275,7 @@ volumeBone  = createVolumeRender(bones,scalarBone,colorBone,opacBone,pieceBone)
 ### Volume Rendering Muscle ###
 scalarMuscle    = [50,51,1100,1101]
 colorMuscle     = [[0.0, 0.0, 0.0],[1.0,0.0,0.0],[1.0,0.0,0.0],[0.0,0.0,0.0]]
-opacMuscle      = [0.00,0.05,0.05,0.00]
+opacMuscle      = [0.00,0.05,0.1,0.00]
 pieceMuscle     = [0.0,1.0,1.0]
 volumeMuscle    = createVolumeRender(muscle,scalarMuscle,colorMuscle,opacMuscle,pieceMuscle)
 
@@ -270,7 +290,7 @@ boneActor.GetProperty().SetColor(colors.GetColor3d("white"))
 boneActor.GetProperty().SetOpacity(0.9)
 
 # make the muscle actor:
-muscleActor  = createKneeSkin(muscle, 50, 10 )
+muscleActor  = createKneeSkin(muscle, 50,40 )
 muscleActor.GetProperty().SetColor(colors.GetColor3d("red"))
 muscleActor.GetProperty().SetOpacity(0.9)
 
