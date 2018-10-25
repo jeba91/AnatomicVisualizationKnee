@@ -377,15 +377,15 @@ class ChangeRenderStyle():
         ren.RemoveActor(volumeTendon1)
         ren.RemoveActor(volumeTendon2)
         ren.RemoveActor(volumeMenis2)
+        ren.AddActor(tendon2Actor)
+        ren.AddActor(tendon1Actor)
         ren.AddActor(boneActor)
         ren.AddActor(muscleActor1)
         ren.AddActor(muscleActor2)
-        ren.AddActor(skinActor)
         ren.AddActor(ligament1Actor)
         ren.AddActor(ligament2Actor)
-        ren.AddActor(tendon1Actor)
-        ren.AddActor(tendon2Actor)
         ren.AddActor(menisActor)
+        ren.AddActor(skinActor)
 
 def createSliderStyle(min,max,value,point1,point2,title,dim):
   SliderStyle = vtk.vtkSliderRepresentation2D()
@@ -539,47 +539,47 @@ volumeMenis2    = createVolumeRender(menis,scalarMenis2,colorMenis2,opacMenis2,p
 
 
 # make the datasets
-skinActor = createKneeSkin(knee, 20, 10 )
+skinActor = createKneeSkin(knee, 10, 10 )
 skinActor.GetProperty().SetColor(colors.GetColor3d("SkinColor"))
 skinActor.GetProperty().SetOpacity(0.2)
 
 # make the bone actor:
-boneActor  = createKneeSkin(bones, 100, 10 )
-boneActor.GetProperty().SetColor(colors.GetColor3d("boneColor"))
+boneActor  = createKneeSkin(bones, 10, 10 )
+boneActor.GetProperty().SetColor(colors.GetColor3d("white"))
 boneActor.GetProperty().SetOpacity(0.9)
 
 # make the muscle actor1:
-muscleActor1  = createKneeSkin(muscle1, 20, 10  )
+muscleActor1  = createKneeSkin(muscle1, 10, 20  )
 muscleActor1.GetProperty().SetColor(colors.GetColor3d("muscleColor"))
 muscleActor1.GetProperty().SetOpacity(0.9)
 
 # make the muscle actor2:
-muscleActor2  = createKneeSkin(muscle2, 20, 10 )
+muscleActor2  = createKneeSkin(muscle2, 10, 20 )
 muscleActor2.GetProperty().SetColor(colors.GetColor3d("muscleColor"))
 muscleActor2.GetProperty().SetOpacity(0.9)
 
 # make the ligament actors
-ligament1Actor = createKneeSkin(ligament1, 35, 20 )
+ligament1Actor = createKneeSkin(ligament1, 5, 5 )
 ligament1Actor.GetProperty().SetColor(colors.GetColor3d("ligamentColor"))
 ligament1Actor.GetProperty().SetOpacity(0.6)
 
 # make the ligament actor:
-ligament2Actor  = createKneeSkin(ligament2, 100, 10 )
+ligament2Actor  = createKneeSkin(ligament2, 5, 5 )
 ligament2Actor.GetProperty().SetColor(colors.GetColor3d("ligamentColor"))
 ligament2Actor.GetProperty().SetOpacity(0.9)
 
 # make the tendon actor:
-tendon1Actor  = createKneeSkin(tendon1, 50, 5 )
+tendon1Actor  = createKneeSkin(tendon1, 10, 5 )
 tendon1Actor.GetProperty().SetColor(colors.GetColor3d("tendonColor"))
 tendon1Actor.GetProperty().SetOpacity(0.9)
 
 # make the tendon actor:
-tendon2Actor = createKneeSkin(tendon2, 40, 20 )
+tendon2Actor = createKneeSkin(tendon2, 10, 5 )
 tendon2Actor.GetProperty().SetColor(colors.GetColor3d("tendonColor"))
 tendon2Actor.GetProperty().SetOpacity(0.2)
 
 # make the menis actor:
-menisActor  = createKneeSkin(menis, 100, 10 )
+menisActor  = createKneeSkin(menis, 10, 5 )
 menisActor.GetProperty().SetColor(colors.GetColor3d("MeniscusColor"))
 menisActor.GetProperty().SetOpacity(0.9)
 
@@ -593,11 +593,11 @@ menisActor.GetProperty().SetOpacity(0.9)
 
 ren.AddActor(tendon2Actor)
 ren.AddActor(tendon1Actor)
+ren.AddActor(ligament1Actor)
+ren.AddActor(ligament2Actor)
 ren.AddActor(boneActor)
 ren.AddActor(muscleActor1)
 ren.AddActor(muscleActor2)
-ren.AddActor(ligament1Actor)
-ren.AddActor(ligament2Actor)
 ren.AddActor(menisActor)
 ren.AddActor(skinActor)
 
@@ -721,6 +721,18 @@ text_widget.SetInteractor(iren)
 text_widget.SetTextActor(text_actor)
 text_widget.SelectableOff()
 text_widget.On()
+
+
+# camera
+
+camera =vtk.vtkCamera();
+camera.SetPosition(-360, -360,-360);
+camera.SetFocalPoint(460, 460, 460);
+camera.Elevation(-100)
+ren.SetActiveCamera(camera)
+
+for i in range(360):
+  camera.Elevation(i)
 
 
 
