@@ -30,9 +30,9 @@ def createVolumeRender(File, ScalarList, ColorList, OpacList, PieceList):
   volumeProperty.SetGradientOpacity(volumeGOTF)
   volumeProperty.SetInterpolationTypeToLinear()
   volumeProperty.ShadeOn()
-  volumeProperty.SetAmbient(0.3)
+  volumeProperty.SetAmbient(0.5)
   volumeProperty.SetDiffuse(0.8)
-  volumeProperty.SetSpecular(0.4)
+  volumeProperty.SetSpecular(0.1)
 
   volume = vtk.vtkVolume()
   volume.SetMapper(volumeMapper)
@@ -49,6 +49,8 @@ def createKneeSkin(reader, value, smooth):
   mcubes.ComputeGradientsOff()
   mcubes.ComputeNormalsOff()
   mcubes.SetValue(0, isoValue)
+
+  print(mcubes.GetOutputPort())
 
   smoothingIterations = smooth
   passBand = 0.001
@@ -150,8 +152,8 @@ class SliderCallbackN1():
           self.muscle.SetFileName(muscle_list[6])
 
 class SliderOpacity():
-    def __init__(self, knee):
-        self.knee = knee
+    def __init__(self, scalar):
+        self.scalar = scalar
 
     def __call__(self, caller, ev):
       sliderWidget = caller
@@ -161,12 +163,19 @@ class SliderOpacity():
         print("i want to change this slide")
         skinActor.GetProperty().SetOpacity(value/100)
 
+        volumeOTF = vtk.vtkPiecewiseFunction()
+        volumeOTF.AddPoint(self.scalar[0],  0)
+        volumeOTF.AddPoint(self.scalar[1],  value/100)
+        volumeOTF.AddPoint(self.scalar[2],  value/100)
+        volumeOTF.AddPoint(self.scalar[3],  0)
+        volumeKnee.GetProperty().SetScalarOpacity(volumeOTF)
+
         # ren.AddActor(skinActor)
         renWin.Render()
 
 class BoneOpacity():
-    def __init__(self, bone):
-        self.bone = bone
+    def __init__(self, scalar):
+        self.scalar = scalar
 
     def __call__(self, caller, ev):
       sliderWidget = caller
@@ -175,24 +184,31 @@ class BoneOpacity():
         boneActor.GetProperty().SetOpacity(value/100)
 
         volumeOTF = vtk.vtkPiecewiseFunction()
-        volumeOTF.AddPoint(100,  value/100)
-        volumeOTF.AddPoint(200,  value/100)
-        volumeOTF.AddPoint(300,  value/100)
-        volumeOTF.AddPoint(400,  value/100)
+        volumeOTF.AddPoint(self.scalar[0],  0)
+        volumeOTF.AddPoint(self.scalar[1],  value/100)
+        volumeOTF.AddPoint(self.scalar[2],  value/100)
+        volumeOTF.AddPoint(self.scalar[3],  0)
         volumeBone.GetProperty().SetScalarOpacity(volumeOTF)
 
         # ren.AddActor(skinActor)
         renWin.Render()
 
 class MuscleOpacity():
-    def __init__(self, muscle):
-        self.muscle = muscle
+    def __init__(self, scalar):
+        self.scalar = scalar
 
     def __call__(self, caller, ev):
       sliderWidget = caller
       value = sliderWidget.GetRepresentation().GetValue()
       if value >= 0 and value < 100:
         muscleActor.GetProperty().SetOpacity(value/100)
+
+        volumeOTF = vtk.vtkPiecewiseFunction()
+        volumeOTF.AddPoint(self.scalar[0],  0)
+        volumeOTF.AddPoint(self.scalar[1],  value/100)
+        volumeOTF.AddPoint(self.scalar[2],  value/100)
+        volumeOTF.AddPoint(self.scalar[3],  0)
+        volumeMuscle.GetProperty().SetScalarOpacity(volumeOTF)
 
         # ren.AddActor(skinActor)
         renWin.Render()
@@ -209,15 +225,15 @@ class ChangeRenderStyle():
         ren.RemoveActor(skinActor)
         ren.RemoveActor(muscleActor)
         ren.AddActor(volumeBone)
-        ren.AddActor(volumeKnee)
         ren.AddActor(volumeMuscle)
+        ren.AddActor(volumeKnee)
       elif value < 0.5:
         ren.RemoveActor(volumeBone)
         ren.RemoveActor(volumeKnee)
         ren.RemoveActor(volumeMuscle)
         ren.AddActor(boneActor)
-        ren.AddActor(skinActor)
         ren.AddActor(muscleActor)
+        ren.AddActor(skinActor)
 
 def createSliderStyle(min,max,value,point1,point2,title,dim):
   SliderStyle = vtk.vtkSliderRepresentation2D()
@@ -281,14 +297,19 @@ volumeKnee  = createVolumeRender(knee,scalarKnee,colorKnee,opacKnee,pieceKnee)
 scalarBone  = [50,51,1100,1101]
 colorBone   = [[0.0, 0.0, 0.0],[1.0,1.0,0.9],[1.0,1.0,0.9],[0.0,0.0,0.0]]
 opacBone    = [0.00,1.00,1.00,0.00]
-pieceBone   = [0.0,1.0,1.0]
+pieceBone   = [1.0,1.0,1.0]
 volumeBone  = createVolumeRender(bones,scalarBone,colorBone,opacBone,pieceBone)
+
+# writer = vtk.vtkPolyDataWriter()
+# writer.SetInputData(volumeBone.GetOutput())
+# writer.SetFileName('mysphere.vtk')
+# writer.Update()
 
 ### Volume Rendering Muscle ###
 scalarMuscle    = [50,51,1100,1101]
 colorMuscle     = [[0.0, 0.0, 0.0],[1.0,0.0,0.0],[1.0,0.0,0.0],[0.0,0.0,0.0]]
 opacMuscle      = [0.00,0.5,0.5,0.00]
-pieceMuscle     = [0.0,1.0,1.0]
+pieceMuscle     = [1.0,1.0,1.0]
 volumeMuscle    = createVolumeRender(muscle,scalarMuscle,colorMuscle,opacMuscle,pieceMuscle)
 
 # make the datasets
@@ -308,9 +329,8 @@ muscleActor.GetProperty().SetOpacity(0.9)
 
 # Add the actors to the renderer
 ren.AddActor(boneActor)
-ren.AddActor(skinActor)
 ren.AddActor(muscleActor)
-
+ren.AddActor(skinActor)
 
 # make slider
 StyleDim = [0.008,0.008,0.03,0.02]
@@ -334,7 +354,7 @@ sliderSkinWidget.SetRepresentation(StyleSkin)
 sliderSkinWidget.SetAnimationModeToAnimate()
 sliderSkinWidget.EnabledOn()
 
-sliderSkinWidget.AddObserver(vtk.vtkCommand.InteractionEvent, SliderOpacity(knee))
+sliderSkinWidget.AddObserver(vtk.vtkCommand.InteractionEvent, SliderOpacity(scalarKnee))
 
 ### Bone Opacity Slider ###
 StyleDim = [0.008,0.008,0.015,0.015]
@@ -346,7 +366,7 @@ sliderBoneWidget.SetRepresentation(styleBone)
 sliderBoneWidget.SetAnimationModeToAnimate()
 sliderBoneWidget.EnabledOn()
 
-sliderBoneWidget.AddObserver(vtk.vtkCommand.InteractionEvent, BoneOpacity(volumeBone))
+sliderBoneWidget.AddObserver(vtk.vtkCommand.InteractionEvent, BoneOpacity(scalarBone))
 
 ### Muscle Opacity Slider ###
 StyleDim = [0.008,0.008,0.015,0.015]
@@ -358,7 +378,7 @@ sliderMuscleWidget.SetRepresentation(styleMuscle)
 sliderMuscleWidget.SetAnimationModeToAnimate()
 sliderMuscleWidget.EnabledOn()
 
-sliderMuscleWidget.AddObserver(vtk.vtkCommand.InteractionEvent, MuscleOpacity(muscle))
+sliderMuscleWidget.AddObserver(vtk.vtkCommand.InteractionEvent, MuscleOpacity(scalarMuscle))
 
 ### Render Style Slider ###
 StyleDim = [0.008,0.008,0.015,0.015]
