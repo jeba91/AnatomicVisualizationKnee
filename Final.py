@@ -92,19 +92,7 @@ class MyInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
 
     def keyPressEvent(self,obj,event):
       key = self.parent.GetKeySym()
-      if key == 'b':
-        if self.bones == False:
-          print("I want to see a bone")
-          ren.AddActor(boneActor)
-          iren.GetRenderWindow().Render()
-          self.bones = True
-        else:
-          print("I want to unsee the bone")
-          ren.RemoveActor(boneActor)
-          iren.GetRenderWindow().Render()
-          self.bones = False
       if key == 'space':
-        print("let start this thing")
         for i in range(len(muscle_list1)):
           knee.SetFileName(knee_list[i])
           bones.SetFileName(bone_list[i])
@@ -429,7 +417,7 @@ ren.SetBackground(0.2,0.2,0.2)
 # set the renderWindow
 renWin = vtk.vtkRenderWindow()
 renWin.AddRenderer(ren)
-renWin.SetSize(1000, 1000)
+renWin.SetSize(1000, 1500)
 
 # Set the interactore
 iren = vtk.vtkRenderWindowInteractor()
@@ -593,7 +581,7 @@ ren.AddActor(skinActor)
 
 # make slider
 StyleDim = [0.008,0.008,0.03,0.00]
-StyleN1 = createSliderStyle(0,7,0,[0.1,0.1],[0.9,0.1], "Knee flexion", StyleDim)
+StyleN1 = createSliderStyle(0,7,0,[0.05,0.1],[0.95,0.1], "Knee flexion", StyleDim)
 
 sliderWidgetN1 = vtk.vtkSliderWidget()
 sliderWidgetN1.SetInteractor(iren)
@@ -604,7 +592,7 @@ sliderWidgetN1.AddObserver(vtk.vtkCommand.InteractionEvent, SliderCallbackN1(kne
 
 ### Skin Opacity Slider ###
 StyleDim = [0.008,0.008,0.015,0.015]
-StyleSkin = createSliderStyle(0,100,20,[0.7,0.9],[0.9,0.9], "Skin opacity", StyleDim)
+StyleSkin = createSliderStyle(0,100,20,[0.75,0.9],[0.95,0.9], "Skin opacity", StyleDim)
 
 sliderSkinWidget = vtk.vtkSliderWidget()
 sliderSkinWidget.SetInteractor(iren)
@@ -616,7 +604,7 @@ sliderSkinWidget.AddObserver(vtk.vtkCommand.InteractionEvent, SliderOpacity(scal
 
 ### Bone Opacity Slider ###
 StyleDim = [0.008,0.008,0.015,0.015]
-styleBone = createSliderStyle(0,100,20,[0.7,0.8],[0.9,0.8], "Bone opacity", StyleDim)
+styleBone = createSliderStyle(0,100,20,[0.75,0.8],[0.95,0.8], "Bone opacity", StyleDim)
 
 sliderBoneWidget = vtk.vtkSliderWidget()
 sliderBoneWidget.SetInteractor(iren)
@@ -628,7 +616,7 @@ sliderBoneWidget.AddObserver(vtk.vtkCommand.InteractionEvent, BoneOpacity(scalar
 
 ### Muscle Opacity Slider ###
 StyleDim = [0.008,0.008,0.015,0.015]
-styleMuscle = createSliderStyle(0,100,20,[0.7,0.7],[0.9,0.7], "Muscle opacity", StyleDim)
+styleMuscle = createSliderStyle(0,100,20,[0.75,0.7],[0.95,0.7], "Muscle opacity", StyleDim)
 
 sliderMuscleWidget = vtk.vtkSliderWidget()
 sliderMuscleWidget.SetInteractor(iren)
@@ -640,7 +628,7 @@ sliderMuscleWidget.AddObserver(vtk.vtkCommand.InteractionEvent, MuscleOpacity(sc
 
 ### Render Style Slider ###
 StyleDim = [0.008,0.008,0.015,0.015]
-styleStyle = createSliderStyle(0,1,0,[0.1,0.9],[0.3,0.9], "Render Style", StyleDim)
+styleStyle = createSliderStyle(0,1,0,[0.05,0.9],[0.25,0.9], "Render Style", StyleDim)
 
 SliderStyleWidget = vtk.vtkSliderWidget()
 SliderStyleWidget.SetInteractor(iren)
@@ -651,7 +639,7 @@ SliderStyleWidget.AddObserver(vtk.vtkCommand.InteractionEvent, ChangeRenderStyle
 
 
 StyleDim = [0.008,0.008,0.015,0.015]
-styleTendon = createSliderStyle(0,100,20,[0.7,0.6],[0.9,0.6], "Tendon opacity", StyleDim)
+styleTendon = createSliderStyle(0,100,20,[0.75,0.6],[0.95,0.6], "Tendon opacity", StyleDim)
 
 sliderTendonWidget = vtk.vtkSliderWidget()
 sliderTendonWidget.SetInteractor(iren)
@@ -663,7 +651,7 @@ sliderTendonWidget.AddObserver(vtk.vtkCommand.InteractionEvent, TendonOpacity(sc
 
 
 StyleDim = [0.008,0.008,0.015,0.015]
-styleLigament = createSliderStyle(0,100,20,[0.7,0.5],[0.9,0.5], "Ligament opacity", StyleDim)
+styleLigament = createSliderStyle(0,100,20,[0.75,0.5],[0.95,0.5], "Ligament opacity", StyleDim)
 
 sliderLigamentWidget = vtk.vtkSliderWidget()
 sliderLigamentWidget.SetInteractor(iren)
@@ -675,7 +663,7 @@ sliderLigamentWidget.AddObserver(vtk.vtkCommand.InteractionEvent, LigamentOpacit
 
 
 StyleDim = [0.008,0.008,0.015,0.015]
-styleMeniscus = createSliderStyle(0,100,20,[0.7,0.4],[0.9,0.4], "Meniscus opacity", StyleDim)
+styleMeniscus = createSliderStyle(0,100,20,[0.75,0.4],[0.95,0.4], "Meniscus opacity", StyleDim)
 
 sliderMeniscusWidget = vtk.vtkSliderWidget()
 sliderMeniscusWidget.SetInteractor(iren)
