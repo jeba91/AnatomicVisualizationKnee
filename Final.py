@@ -103,7 +103,7 @@ class MyInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
           ren.RemoveActor(boneActor)
           iren.GetRenderWindow().Render()
           self.bones = False
-      if key == 'p':
+      if key == 'space':
         print("let start this thing")
         for i in range(len(muscle_list1)):
           knee.SetFileName(knee_list[i])
@@ -406,7 +406,7 @@ knee_list   = ['skin_1.vti','skin_2.vti','skin_3.vti','skin_4.vti','skin_5.vti',
 bone_list   = ['bone1.vti','bone2.vti','bone3.vti','bone4.vti','bone5.vti','bone6.vti','bone7.vti']
 muscle_list1 = ['muscle1_1.vti','muscle1_2.vti','muscle1_3.vti','muscle1_4.vti','muscle1_5.vti','muscle1_6.vti','muscle1_7.vti']
 muscle_list2 = ['muscle2_1.vti','muscle2_2.vti','muscle2_3.vti','muscle2_4.vti','muscle2_5.vti','muscle2_6.vti','muscle2_7.vti']
-ligament1_list = ['ligament1_1.vti','ligament1_2.vti','ligamen1_t3.vti','ligament1_4.vti','ligament1_5.vti','ligament1_6.vti','ligament1_7.vti']
+ligament1_list = ['ligament1_1.vti','ligament1_2.vti','ligament1_3.vti','ligament1_4.vti','ligament1_5.vti','ligament1_6.vti','ligament1_7.vti']
 ligament2_list = ['ligament2_1.vti','ligament2_2.vti','ligament2_3.vti','ligament2_4.vti','ligament2_5.vti','ligament2_6.vti','ligament2_7.vti']
 tendon1_list = ['tendon1_1.vti','tendon1_2.vti','tendon1_3.vti','tendon1_4.vti','tendon1_5.vti','tendon1_6.vti','tendon1_7.vti']
 tendon2_list = ['tendon2_1.vti','tendon2_2.vti','tendon2_3.vti','tendon2_4.vti','tendon2_5.vti','tendon2_6.vti','tendon2_7.vti']
