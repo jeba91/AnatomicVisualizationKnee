@@ -32,7 +32,7 @@ def createVolumeRender(File, ScalarList, ColorList, OpacList, PieceList):
   volumeProperty.ShadeOn()
   volumeProperty.SetAmbient(0.5)
   volumeProperty.SetDiffuse(0.8)
-  volumeProperty.SetSpecular(0.1)
+  volumeProperty.SetSpecular(0.2)
 
   volume = vtk.vtkVolume()
   volume.SetMapper(volumeMapper)
@@ -199,7 +199,6 @@ class SliderCallbackN1():
           self.tendon2.SetFileName(tendon2_list[6])
           self.meniscus.SetFileName(menis_list[6])
 
-
 class SliderOpacity():
     def __init__(self, scalar):
         self.scalar = scalar
@@ -214,8 +213,8 @@ class SliderOpacity():
 
         volumeOTF = vtk.vtkPiecewiseFunction()
         volumeOTF.AddPoint(self.scalar[0],  0)
-        volumeOTF.AddPoint(self.scalar[1],  value/100)
-        volumeOTF.AddPoint(self.scalar[2],  value/100)
+        volumeOTF.AddPoint(self.scalar[1],  value/200)
+        volumeOTF.AddPoint(self.scalar[2],  value/200)
         volumeOTF.AddPoint(self.scalar[3],  0)
         volumeKnee.GetProperty().SetScalarOpacity(volumeOTF)
 
@@ -234,8 +233,8 @@ class BoneOpacity():
 
         volumeOTF = vtk.vtkPiecewiseFunction()
         volumeOTF.AddPoint(self.scalar[0],  0)
-        volumeOTF.AddPoint(self.scalar[1],  value/100)
-        volumeOTF.AddPoint(self.scalar[2],  value/100)
+        volumeOTF.AddPoint(self.scalar[1],  value/200)
+        volumeOTF.AddPoint(self.scalar[2],  value/200)
         volumeOTF.AddPoint(self.scalar[3],  0)
         volumeBone.GetProperty().SetScalarOpacity(volumeOTF)
 
@@ -255,8 +254,8 @@ class TendonOpacity():
 
         volumeOTF = vtk.vtkPiecewiseFunction()
         volumeOTF.AddPoint(self.scalar[0],  0)
-        volumeOTF.AddPoint(self.scalar[1],  value/100)
-        volumeOTF.AddPoint(self.scalar[2],  value/100)
+        volumeOTF.AddPoint(self.scalar[1],  value/200)
+        volumeOTF.AddPoint(self.scalar[2],  value/200)
         volumeOTF.AddPoint(self.scalar[3],  0)
         volumeTendon1.GetProperty().SetScalarOpacity(volumeOTF)
         volumeTendon2.GetProperty().SetScalarOpacity(volumeOTF)
@@ -277,8 +276,8 @@ class LigamentOpacity():
 
         volumeOTF = vtk.vtkPiecewiseFunction()
         volumeOTF.AddPoint(self.scalar[0],  0)
-        volumeOTF.AddPoint(self.scalar[1],  value/100)
-        volumeOTF.AddPoint(self.scalar[2],  value/100)
+        volumeOTF.AddPoint(self.scalar[1],  value/200)
+        volumeOTF.AddPoint(self.scalar[2],  value/200)
         volumeOTF.AddPoint(self.scalar[3],  0)
         volumeLigament1.GetProperty().SetScalarOpacity(volumeOTF)
         volumeLigament2.GetProperty().SetScalarOpacity(volumeOTF)
@@ -298,8 +297,8 @@ class MeniscusOpacity():
 
         volumeOTF = vtk.vtkPiecewiseFunction()
         volumeOTF.AddPoint(self.scalar[0],  0)
-        volumeOTF.AddPoint(self.scalar[1],  value/100)
-        volumeOTF.AddPoint(self.scalar[2],  value/100)
+        volumeOTF.AddPoint(self.scalar[1],  value/200)
+        volumeOTF.AddPoint(self.scalar[2],  value/200)
         volumeOTF.AddPoint(self.scalar[3],  0)
         volumeMenis2.GetProperty().SetScalarOpacity(volumeOTF)
         volumeMenis2.GetProperty().SetScalarOpacity(volumeOTF)
@@ -320,10 +319,11 @@ class MuscleOpacity():
 
         volumeOTF = vtk.vtkPiecewiseFunction()
         volumeOTF.AddPoint(self.scalar[0],  0)
-        volumeOTF.AddPoint(self.scalar[1],  value/100)
-        volumeOTF.AddPoint(self.scalar[2],  value/100)
+        volumeOTF.AddPoint(self.scalar[1],  value/200)
+        volumeOTF.AddPoint(self.scalar[2],  value/200)
         volumeOTF.AddPoint(self.scalar[3],  0)
-        volumeMuscle.GetProperty().SetScalarOpacity(volumeOTF)
+        volumeMuscle1.GetProperty().SetScalarOpacity(volumeOTF)
+        volumeMuscle2.GetProperty().SetScalarOpacity(volumeOTF)
 
         # ren.AddActor(skinActor)
         renWin.Render()
@@ -411,6 +411,8 @@ colors.SetColor('ligamentColor',[153,255,204,255] )
 colors.SetColor('MeniscusColor', [255,255,153, 255])
 colors.SetColor('tendonColor', [153,153,255,255])
 
+
+
 # set the renderer
 ren = vtk.vtkRenderer()
 ren.SetBackground(0.2,0.2,0.2)
@@ -455,64 +457,69 @@ menis = vtk.vtkXMLImageDataReader()
 menis.SetFileName(menis_list[0])
 
 
+skinColor = [float(177)/255,float(122)/255,float(101)/255]
+boneColor = [float(241)/255,float(214)/255,float(145)/255]
+muscleColor = [float(192)/255,float(104)/255,float(88)/255]
+ligamentColor = [float(153)/255,float(255)/255,float(204)/255]
+meniscusColor = [float(255)/255,float(255)/255,float(153)/255]
+tendonColor = [float(153)/255,float(153)/255,float(204)/255]
 
 ### Volume Rendering Skin ###
 scalarKnee  = [50,100,200,300]
-colorKnee   = [[0.0, 0.0, 0.0],[1.0,0.5,0.3],[1.0,0.5,0.3],[0.0,0.0,0.0]]
+colorKnee   = [[0.0, 0.0, 0.0],skinColor,skinColor,[0.0,0.0,0.0]]
 opacKnee    = [0.00,0.10,0.25,0.00]
 pieceKnee   = [0.0,0.1,0.2]
 volumeKnee  = createVolumeRender(knee,scalarKnee,colorKnee,opacKnee,pieceKnee)
 
 ### Volume Rendering Bone ###
 scalarBone  = [50,51,1100,1101]
-colorBone   = [[0.0, 0.0, 0.0],[1.0,1.0,0.9],[1.0,1.0,0.9],[0.0,0.0,0.0]]
+colorBone   = [[0.0, 0.0, 0.0],boneColor,boneColor,[0.0,0.0,0.0]]
 opacBone    = [0.00,1.00,1.00,0.00]
-pieceBone   = [1.0,1.0,1.0]
+pieceBone   = [0.1,0.9,1.0]
 volumeBone  = createVolumeRender(bones,scalarBone,colorBone,opacBone,pieceBone)
 
 ### Volume Rendering Muscle ###
 scalarMuscle    = [50,51,1100,1101]
-colorMuscle     = [[0.0, 0.0, 0.0],[1.0,0.0,0.0],[1.0,0.0,0.0],[0.0,0.0,0.0]]
+colorMuscle     = [[0.0, 0.0, 0.0],muscleColor,muscleColor,[0.0,0.0,0.0]]
 opacMuscle      = [0.00,0.5,0.5,0.00]
-pieceMuscle     = [1.0,1.0,1.0]
+pieceMuscle     = [0.1,0.9,1.0]
 volumeMuscle1    = createVolumeRender(muscle1,scalarMuscle,colorMuscle,opacMuscle,pieceMuscle)
 volumeMuscle2    = createVolumeRender(muscle2,scalarMuscle,colorMuscle,opacMuscle,pieceMuscle)
 
 # volume rendering for ligament
 scalarLigament1    = [50,51,1100,1101]
-colorLigament1     = [[0.0, 0.0, 0.0],[1.0,0.0,0.0],[1.0,0.0,0.0],[0.0,0.0,0.0]]
+colorLigament1     = [[0.0, 0.0, 0.0],ligamentColor,ligamentColor,[0.0,0.0,0.0]]
 opacLigament1      = [0.00,0.5,0.5,0.00]
-pieceLigament1     = [1.0,1.0,1.0]
+pieceLigament1     = [0.1,0.9,1.0]
 volumeLigament1    = createVolumeRender(ligament1,scalarLigament1,colorLigament1,opacLigament1,pieceLigament1)
 
 ### Volume Rendering Muscle ###
 scalarLigament2    = [50,51,1100,1101]
-colorLigament2     = [[0.0, 0.0, 0.0],[1.0,0.0,0.0],[1.0,0.0,0.0],[0.0,0.0,0.0]]
+colorLigament2     = [[0.0, 0.0, 0.0],ligamentColor,ligamentColor,[0.0,0.0,0.0]]
 opacLigament2      = [0.00,0.5,0.5,0.00]
-pieceLigament2     = [1.0,1.0,1.0]
+pieceLigament2     = [0.1,0.9,1.0]
 volumeLigament2    = createVolumeRender(ligament2,scalarLigament2,colorLigament2,opacLigament2,pieceLigament2)
 
 # volume rendering for tendon
 scalarTendon1    = [50,51,1100,1101]
-colorTendon1     = [[0.0, 0.0, 0.0],[1.0,0.0,0.0],[1.0,0.0,0.0],[0.0,0.0,0.0]]
+colorTendon1     = [[0.0, 0.0, 0.0],tendonColor,tendonColor,[0.0,0.0,0.0]]
 opacTendon1      = [0.00,0.5,0.5,0.00]
-pieceTendon1     = [1.0,1.0,1.0]
+pieceTendon1     = [0.1,0.9,1.0]
 volumeTendon1    = createVolumeRender(tendon1,scalarTendon1,colorTendon1,opacTendon1,pieceTendon1)
 
 ### Volume Rendering tendon ###
 scalarTendon2    = [50,51,1100,1101]
-colorTendon2     = [[0.0, 0.0, 0.0],[1.0,0.0,0.0],[1.0,0.0,0.0],[0.0,0.0,0.0]]
+colorTendon2     = [[0.0, 0.0, 0.0],tendonColor,tendonColor,[0.0,0.0,0.0]]
 opacTendon2      = [0.00,0.5,0.5,0.00]
-pieceTendon2     = [1.0,1.0,1.0]
+pieceTendon2     = [0.1,0.9,1.0]
 volumeTendon2    = createVolumeRender(tendon2,scalarTendon2,colorTendon2,opacTendon2,pieceTendon2)
 
 ## meniscus
 scalarMenis2    = [50,51,1100,1101]
-colorMenis2     = [[0.0, 0.0, 0.0],[1.0,0.0,0.0],[1.0,0.0,0.0],[0.0,0.0,0.0]]
+colorMenis2     = [[0.0, 0.0, 0.0],meniscusColor,meniscusColor,[0.0,0.0,0.0]]
 opacMenis2      = [0.00,0.5,0.5,0.00]
-pieceMenis2     = [1.0,1.0,1.0]
+pieceMenis2     = [0.1,0.9,1.0]
 volumeMenis2    = createVolumeRender(menis,scalarMenis2,colorMenis2,opacMenis2,pieceMenis2)
-
 
 
 
