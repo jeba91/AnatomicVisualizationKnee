@@ -237,7 +237,7 @@ def createSliderStyle(min,max,value,point1,point2,title,dim):
 
 
 knee_list   = ['knee1_1.vtk','knee1_2.vtk','knee1_3.vtk','knee1_4.vtk','knee1_5.vtk','knee1_6.vtk','knee1_7.vtk']
-bone_list   = ['knie1.vti','knie2.vti','knie3.vti','knie4.vti','knie5.vti','knie6.vti','knie7.vti']
+bone_list   = ['bone1.vti','bone2.vti','bone3.vti','bone4.vti','bone5.vti','bone6.vti','bone7.vti']
 muscle_list = ['spier1.vti','spier2.vti','spier3.vti','spier4.vti','spier5.vti','spier6.vti','spier7.vti']
 
 #set the colors
