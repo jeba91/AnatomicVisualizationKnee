@@ -120,6 +120,13 @@ class MyInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
           iren.GetRenderWindow().Render()
 
 class SliderCallbackN1():
+<<<<<<< HEAD
+    def __init__(self, knee, bones, muscle1, muscle2):
+        self.knee = knee
+        self.bones = bones
+        self.muscle1 = muscle1
+        self.muscle2 = muscle2
+=======
     def __init__(self, knee, bones, muscle, ligament1, ligament2, tendon1, tendon2, meniscus):
         self.knee = knee
         self.bones = bones
@@ -129,6 +136,7 @@ class SliderCallbackN1():
         self.tendon1 = tendon1
         self.tendon2 = tendon2
         self.meniscus  = meniscus
+>>>>>>> 979f71e6cf0779cb0e6ffcff58b99e8ff6d7a88b
 
     def __call__(self, caller, ev):
         sliderWidget = caller
@@ -136,6 +144,40 @@ class SliderCallbackN1():
         if value >= 0 and value < 1:
           self.knee.SetFileName(knee_list[0])
           self.bones.SetFileName(bone_list[0])
+<<<<<<< HEAD
+          self.muscle1.SetFileName(muscle_list1[0])
+          self.muscle2.SetFileName(muscle_list2[0])
+        elif value >= 1 and value < 2:
+          self.knee.SetFileName(knee_list[1])
+          self.bones.SetFileName(bone_list[1])
+          self.muscle1.SetFileName(muscle_list1[1])
+          self.muscle2.SetFileName(muscle_list2[1])
+        elif value >= 2 and value < 3:
+          self.knee.SetFileName(knee_list[2])
+          self.bones.SetFileName(bone_list[2])
+          self.muscle1.SetFileName(muscle_list1[2])
+          self.muscle2.SetFileName(muscle_list2[2])
+        elif value >= 3 and value < 4:
+          self.knee.SetFileName(knee_list[3])
+          self.bones.SetFileName(bone_list[3])
+          self.muscle1.SetFileName(muscle_list1[3])
+          self.muscle2.SetFileName(muscle_list2[3])
+        elif value >= 4 and value < 5:
+          self.knee.SetFileName(knee_list[4])
+          self.bones.SetFileName(bone_list[4])
+          self.muscle1.SetFileName(muscle_list1[4])
+          self.muscle2.SetFileName(muscle_list2[4])
+        elif value >= 5 and value < 6:
+          self.knee.SetFileName(knee_list[5])
+          self.bones.SetFileName(bone_list[5])
+          self.muscle1.SetFileName(muscle_list1[5])
+          self.muscle2.SetFileName(muscle_list2[5])
+        elif value >= 6 and value < 7:
+          self.knee.SetFileName(knee_list[6])
+          self.bones.SetFileName(bone_list[6])
+          self.muscle1.SetFileName(muscle_list1[6])
+          self.muscle2.SetFileName(muscle_list2[6])
+=======
           self.muscle.SetFileName(muscle_list[0])
           self.ligament1.SetFileName(ligament1_list[0])
           self.ligament2.SetFileName(ligament2_list[0])
@@ -203,6 +245,7 @@ class SliderCallbackN1():
           self.tendon2.SetFileName(tendon2_list[6])
           self.meniscus.SetFileName(menis_list[6])
 
+>>>>>>> 979f71e6cf0779cb0e6ffcff58b99e8ff6d7a88b
 
 class SliderOpacity():
     def __init__(self, scalar):
@@ -341,14 +384,20 @@ class ChangeRenderStyle():
       if value >= 0.5:
         ren.RemoveActor(boneActor)
         ren.RemoveActor(skinActor)
+<<<<<<< HEAD
+        ren.RemoveActor(muscleActor1)
+        ren.RemoveActor(muscleActor2)
+=======
         ren.RemoveActor(muscleActor)
         ren.RemoveActor(ligament1Actor)
         ren.RemoveActor(ligament2Actor)
         ren.RemoveActor(tendon1Actor)
         ren.RemoveActor(tendon2Actor)
         ren.RemoveActor(menisActor)
+>>>>>>> 979f71e6cf0779cb0e6ffcff58b99e8ff6d7a88b
         ren.AddActor(volumeBone)
-        ren.AddActor(volumeMuscle)
+        ren.AddActor(volumeMuscle1)
+        ren.AddActor(volumeMuscle2)
         ren.AddActor(volumeKnee)
         ren.AddActor(volumeLigament1)
         ren.AddActor(volumeLigament2)
@@ -358,14 +407,20 @@ class ChangeRenderStyle():
       elif value < 0.5:
         ren.RemoveActor(volumeBone)
         ren.RemoveActor(volumeKnee)
+<<<<<<< HEAD
+        ren.RemoveActor(volumeMuscle1)
+        ren.RemoveActor(volumeMuscle2)
+=======
         ren.RemoveActor(volumeMuscle)
         ren.RemoveActor(volumeLigament1)
         ren.RemoveActor(volumeLigament2)
         ren.RemoveActor(volumeTendon1)
         ren.RemoveActor(volumeTendon2)
         ren.RemoveActor(volumeMenis2)
+>>>>>>> 979f71e6cf0779cb0e6ffcff58b99e8ff6d7a88b
         ren.AddActor(boneActor)
-        ren.AddActor(muscleActor)
+        ren.AddActor(muscleActor1)
+        ren.AddActor(muscleActor2)
         ren.AddActor(skinActor)
         ren.AddActor(ligament1Actor)
         ren.AddActor(ligament2Actor)
@@ -392,6 +447,10 @@ def createSliderStyle(min,max,value,point1,point2,title,dim):
 
 knee_list   = ['skin_1.vti','skin_2.vti','skin_3.vti','skin_4.vti','skin_5.vti','skin_6.vti','skin_7.vti']
 bone_list   = ['bone1.vti','bone2.vti','bone3.vti','bone4.vti','bone5.vti','bone6.vti','bone7.vti']
+<<<<<<< HEAD
+muscle_list1 = ['muscle1_1.vti','muscle1_2.vti','muscle1_3.vti','muscle1_4.vti','muscle1_5.vti','muscle1_6.vti','muscle1_7.vti']
+muscle_list2 = ['muscle2_1.vti','muscle2_2.vti','muscle2_3.vti','muscle2_4.vti','muscle2_5.vti','muscle2_6.vti','muscle2_7.vti']
+=======
 muscle_list = ['spier1.vti','spier2.vti','spier3.vti','spier4.vti','spier5.vti','spier6.vti','spier7.vti']
 ligament1_list = ['ligament1_1.vti','ligament1_2.vti','ligamen1_t3.vti','ligament1_4.vti','ligament1_5.vti','ligament1_6.vti','ligament1_7.vti']
 ligament2_list = ['ligament2_1.vti','ligament2_2.vti','ligament2_3.vti','ligament2_4.vti','ligament2_5.vti','ligament2_6.vti','ligament2_7.vti']
@@ -400,6 +459,7 @@ tendon2_list = ['tendon2_1.vti','tendon2_2.vti','tendon2_3.vti','tendon2_4.vti',
 menis_list = ['kneecap_1.vti','kneecap_2.vti','kneecap_3.vti','kneecap_4.vti','kneecap_5.vti','kneecap_6.vti','kneecap_7.vti']
 
 
+>>>>>>> 979f71e6cf0779cb0e6ffcff58b99e8ff6d7a88b
 
 #set the colors
 colors = vtk.vtkNamedColors()
@@ -432,8 +492,11 @@ knee.SetFileName(knee_list[0])
 bones = vtk.vtkXMLImageDataReader()
 bones.SetFileName(bone_list[0])
 
-muscle = vtk.vtkXMLImageDataReader()
-muscle.SetFileName(muscle_list[0])
+muscle1 = vtk.vtkXMLImageDataReader()
+muscle1.SetFileName(muscle_list1[0])
+
+muscle2 = vtk.vtkXMLImageDataReader()
+muscle2.SetFileName(muscle_list2[0])
 
 tendon1 = vtk.vtkXMLImageDataReader()
 tendon1.SetFileName(tendon1_list[0])
@@ -471,7 +534,8 @@ scalarMuscle    = [50,51,1100,1101]
 colorMuscle     = [[0.0, 0.0, 0.0],[1.0,0.0,0.0],[1.0,0.0,0.0],[0.0,0.0,0.0]]
 opacMuscle      = [0.00,0.5,0.5,0.00]
 pieceMuscle     = [1.0,1.0,1.0]
-volumeMuscle    = createVolumeRender(muscle,scalarMuscle,colorMuscle,opacMuscle,pieceMuscle)
+volumeMuscle1    = createVolumeRender(muscle1,scalarMuscle,colorMuscle,opacMuscle,pieceMuscle)
+volumeMuscle2    = createVolumeRender(muscle2,scalarMuscle,colorMuscle,opacMuscle,pieceMuscle)
 
 # volume rendering for ligament
 scalarLigament1    = [50,51,1100,1101]
@@ -528,9 +592,20 @@ boneActor.GetProperty().SetColor(colors.GetColor3d("white"))
 boneActor.GetProperty().SetOpacity(0.9)
 
 # make the muscle actor:
+<<<<<<< HEAD
+muscleActor1  = createKneeSkin(muscle1, 50,40 )
+muscleActor1.GetProperty().SetColor(colors.GetColor3d("red"))
+muscleActor1.GetProperty().SetOpacity(0.9)
+
+# make the muscle actor:
+muscleActor2  = createKneeSkin(muscle2, 50,40 )
+muscleActor2.GetProperty().SetColor(colors.GetColor3d("red"))
+muscleActor2.GetProperty().SetOpacity(0.9)
+=======
 muscleActor  = createKneeSkin(muscle, 50, 5 )
 muscleActor.GetProperty().SetColor(colors.GetColor3d("muscleColor"))
 muscleActor.GetProperty().SetOpacity(0.9)
+>>>>>>> 979f71e6cf0779cb0e6ffcff58b99e8ff6d7a88b
 
 
 # make the ligament actors
@@ -571,10 +646,15 @@ menisActor.GetProperty().SetOpacity(0.9)
 ren.AddActor(tendon2Actor)
 ren.AddActor(tendon1Actor)
 ren.AddActor(boneActor)
+<<<<<<< HEAD
+ren.AddActor(muscleActor1)
+ren.AddActor(muscleActor2)
+=======
 ren.AddActor(muscleActor)
 ren.AddActor(ligament1Actor)
 ren.AddActor(ligament2Actor)
 ren.AddActor(menisActor)
+>>>>>>> 979f71e6cf0779cb0e6ffcff58b99e8ff6d7a88b
 ren.AddActor(skinActor)
 
 # make slider
@@ -587,7 +667,11 @@ sliderWidgetN1.SetRepresentation(StyleN1)
 sliderWidgetN1.SetAnimationModeToAnimate()
 sliderWidgetN1.EnabledOn()
 
+<<<<<<< HEAD
+sliderWidgetN1.AddObserver(vtk.vtkCommand.InteractionEvent, SliderCallbackN1(knee, bones, muscle1, muscle2))
+=======
 sliderWidgetN1.AddObserver(vtk.vtkCommand.InteractionEvent, SliderCallbackN1(knee, bones, muscle,  ligament1, ligament2, tendon1, tendon2, menis))
+>>>>>>> 979f71e6cf0779cb0e6ffcff58b99e8ff6d7a88b
 
 ### Skin Opacity Slider ###
 StyleDim = [0.008,0.008,0.015,0.015]
@@ -634,7 +718,7 @@ SliderStyleWidget.SetInteractor(iren)
 SliderStyleWidget.SetRepresentation(styleStyle)
 SliderStyleWidget.SetAnimationModeToAnimate()
 SliderStyleWidget.EnabledOn()
-SliderStyleWidget.AddObserver(vtk.vtkCommand.InteractionEvent, ChangeRenderStyle(muscle))
+SliderStyleWidget.AddObserver(vtk.vtkCommand.InteractionEvent, ChangeRenderStyle(muscle1))
 
 
 StyleDim = [0.008,0.008,0.015,0.015]
