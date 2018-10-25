@@ -42,9 +42,22 @@ def createVolumeRender(File, ScalarList, ColorList, OpacList, PieceList):
 
 def createKneeSkin(reader, value, smooth):
 
+  selectTissue = vtk.vtkImageThreshold()
+  selectTissue.ThresholdBetween(5, 1150)
+  selectTissue.SetInValue(255)
+  selectTissue.SetOutValue(0)
+  selectTissue.SetInputConnection(reader.GetOutputPort())
+
+  gaussianRadius = 1
+  gaussianStandardDeviation = 2.0
+  gaussian = vtk.vtkImageGaussianSmooth()
+  gaussian.SetStandardDeviations(gaussianStandardDeviation, gaussianStandardDeviation, gaussianStandardDeviation)
+  gaussian.SetRadiusFactors(gaussianRadius, gaussianRadius, gaussianRadius)
+  gaussian.SetInputConnection(selectTissue.GetOutputPort())
+
   isoValue = value
   mcubes = vtk.vtkMarchingCubes()
-  mcubes.SetInputConnection(reader.GetOutputPort())
+  mcubes.SetInputConnection(gaussian.GetOutputPort())
   mcubes.ComputeScalarsOff()
   mcubes.ComputeGradientsOff()
   mcubes.ComputeNormalsOff()
@@ -52,15 +65,15 @@ def createKneeSkin(reader, value, smooth):
 
   smoothingIterations = smooth
   passBand = 0.001
-  featureAngle = 60.0
+  featureAngle = 90
   smoother = vtk.vtkWindowedSincPolyDataFilter()
   smoother.SetInputConnection(mcubes.GetOutputPort())
   smoother.SetNumberOfIterations(smoothingIterations)
-  smoother.BoundarySmoothingOff()
-  smoother.FeatureEdgeSmoothingOff()
+  smoother.BoundarySmoothingOn()
+  smoother.FeatureEdgeSmoothingOn()
   smoother.SetFeatureAngle(featureAngle)
   smoother.SetPassBand(passBand)
-  smoother.NonManifoldSmoothingOn()
+  smoother.NonManifoldSmoothingOff()
   smoother.NormalizeCoordinatesOn()
   smoother.Update()
 
@@ -93,6 +106,7 @@ class MyInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
     def keyPressEvent(self,obj,event):
       key = self.parent.GetKeySym()
       if key == 'space':
+        text_widget.Off()
         for i in range(len(muscle_list1)):
           knee.SetFileName(knee_list[i])
           bones.SetFileName(bone_list[i])
@@ -391,6 +405,7 @@ def createSliderStyle(min,max,value,point1,point2,title,dim):
 
 
 knee_list   = ['skin_1.vti','skin_2.vti','skin_3.vti','skin_4.vti','skin_5.vti','skin_6.vti','skin_7.vti']
+# knee_list   = ['knee1_1.vtk','knee1_2.vtk','knee1_3.vtk','knee1_4.vtk','knee1_5.vtk','knee1_6.vtk','knee1_7.vtk']
 bone_list   = ['bone1.vti','bone2.vti','bone3.vti','bone4.vti','bone5.vti','bone6.vti','bone7.vti']
 muscle_list1 = ['muscle1_1.vti','muscle1_2.vti','muscle1_3.vti','muscle1_4.vti','muscle1_5.vti','muscle1_6.vti','muscle1_7.vti']
 muscle_list2 = ['muscle2_1.vti','muscle2_2.vti','muscle2_3.vti','muscle2_4.vti','muscle2_5.vti','muscle2_6.vti','muscle2_7.vti']
@@ -517,22 +532,22 @@ volumeMenis2    = createVolumeRender(menis,scalarMenis2,colorMenis2,opacMenis2,p
 
 
 # make the datasets
-skinActor = createKneeSkin(knee,35, 20 )
+skinActor = createKneeSkin(knee, 20, 10 )
 skinActor.GetProperty().SetColor(colors.GetColor3d("SkinColor"))
 skinActor.GetProperty().SetOpacity(0.2)
 
 # make the bone actor:
 boneActor  = createKneeSkin(bones, 100, 10 )
-boneActor.GetProperty().SetColor(colors.GetColor3d("white"))
+boneActor.GetProperty().SetColor(colors.GetColor3d("boneColor"))
 boneActor.GetProperty().SetOpacity(0.9)
 
 # make the muscle actor1:
-muscleActor1  = createKneeSkin(muscle1, 50,5 )
+muscleActor1  = createKneeSkin(muscle1, 20, 10  )
 muscleActor1.GetProperty().SetColor(colors.GetColor3d("muscleColor"))
 muscleActor1.GetProperty().SetOpacity(0.9)
 
 # make the muscle actor2:
-muscleActor2  = createKneeSkin(muscle2, 50,5 )
+muscleActor2  = createKneeSkin(muscle2, 20, 10 )
 muscleActor2.GetProperty().SetColor(colors.GetColor3d("muscleColor"))
 muscleActor2.GetProperty().SetOpacity(0.9)
 
@@ -672,6 +687,35 @@ sliderMeniscusWidget.SetAnimationModeToAnimate()
 sliderMeniscusWidget.EnabledOn()
 
 sliderMeniscusWidget.AddObserver(vtk.vtkCommand.InteractionEvent, MeniscusOpacity(scalarMenis2))
+
+
+# text widget
+
+# Create the TextActor
+text_actor = vtk.vtkTextActor()
+text_actor.SetInput("Press spacebar for live animation!")
+text_actor.GetTextProperty().SetColor((1, 1, 1))
+# Create the text representation. Used for positioning the text_actor
+text_representation = vtk.vtkTextRepresentation()
+text_representation.GetPositionCoordinate().SetValue(0.30, 0.15)
+text_representation.GetPosition2Coordinate().SetValue(0.5, 0.1)
+
+# Create the TextWidget
+# Note that the SelectableOff method MUST be invoked!
+# According to the documentation :
+#
+# SelectableOn/Off indicates whether the interior region of the widget can be
+# selected or not. If not, then events (such as left mouse down) allow the user
+# to "move" the widget, and no selection is possible. Otherwise the
+# SelectRegion() method is invoked.
+text_widget = vtk.vtkTextWidget()
+text_widget.SetRepresentation(text_representation)
+text_widget.SetInteractor(iren)
+text_widget.SetTextActor(text_actor)
+text_widget.SelectableOff()
+text_widget.On()
+
+
 
 
 renWin.Render()
