@@ -111,8 +111,6 @@ class MyInteractorStyle(vtk.vtkInteractorStyleTrackballCamera):
           muscle.SetFileName(muscle_list[i])
           iren.GetRenderWindow().Render()
 
-
-
 class SliderCallbackN1():
     def __init__(self, knee, bones, muscle):
         self.knee = knee
@@ -167,17 +165,21 @@ class SliderOpacity():
         renWin.Render()
 
 class BoneOpacity():
-    def __init__(self, knee):
-        self.knee = knee
+    def __init__(self, bone):
+        self.bone = bone
 
     def __call__(self, caller, ev):
       sliderWidget = caller
       value = sliderWidget.GetRepresentation().GetValue()
       if value >= 0 and value < 100:
-
-
-        print("i want to change this slide")
         boneActor.GetProperty().SetOpacity(value/100)
+
+        volumeOTF = vtk.vtkPiecewiseFunction()
+        volumeOTF.AddPoint(100,  value/100)
+        volumeOTF.AddPoint(200,  value/100)
+        volumeOTF.AddPoint(300,  value/100)
+        volumeOTF.AddPoint(400,  value/100)
+        volumeBone.GetProperty().SetScalarOpacity(volumeOTF)
 
         # ren.AddActor(skinActor)
         renWin.Render()
@@ -191,11 +193,6 @@ class MuscleOpacity():
       value = sliderWidget.GetRepresentation().GetValue()
       if value >= 0 and value < 100:
         muscleActor.GetProperty().SetOpacity(value/100)
-        volumeGradientOpacity.AddPoint(100, 1/value)
-        volumeProperty.SetScalarOpacity(volumeScalarOpacity)
-
-        volume.SetProperty(volumeProperty)
-        ren.AddViewProp(volume)
 
         # ren.AddActor(skinActor)
         renWin.Render()
@@ -290,7 +287,7 @@ volumeBone  = createVolumeRender(bones,scalarBone,colorBone,opacBone,pieceBone)
 ### Volume Rendering Muscle ###
 scalarMuscle    = [50,51,1100,1101]
 colorMuscle     = [[0.0, 0.0, 0.0],[1.0,0.0,0.0],[1.0,0.0,0.0],[0.0,0.0,0.0]]
-opacMuscle      = [0.00,0.05,0.1,0.00]
+opacMuscle      = [0.00,0.5,0.5,0.00]
 pieceMuscle     = [0.0,1.0,1.0]
 volumeMuscle    = createVolumeRender(muscle,scalarMuscle,colorMuscle,opacMuscle,pieceMuscle)
 
@@ -349,7 +346,7 @@ sliderBoneWidget.SetRepresentation(styleBone)
 sliderBoneWidget.SetAnimationModeToAnimate()
 sliderBoneWidget.EnabledOn()
 
-sliderBoneWidget.AddObserver(vtk.vtkCommand.InteractionEvent, BoneOpacity(knee))
+sliderBoneWidget.AddObserver(vtk.vtkCommand.InteractionEvent, BoneOpacity(volumeBone))
 
 ### Muscle Opacity Slider ###
 StyleDim = [0.008,0.008,0.015,0.015]
