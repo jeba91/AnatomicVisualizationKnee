@@ -332,6 +332,7 @@ class ChangeRenderStyle():
       self.muscle = muscle
 
     def __call__(self, caller, ev):
+      print(ren.GetActiveCamera())
       sliderWidget = caller
       value = sliderWidget.GetRepresentation().GetValue()
       if value >= 0.5:
@@ -389,7 +390,6 @@ def createSliderStyle(min,max,value,point1,point2,title,dim):
   SliderStyle.SetLabelHeight(dim[3])
   return SliderStyle
 
-
 knee_list   = ['skin_1.vti','skin_2.vti','skin_3.vti','skin_4.vti','skin_5.vti','skin_6.vti','skin_7.vti']
 bone_list   = ['bone1.vti','bone2.vti','bone3.vti','bone4.vti','bone5.vti','bone6.vti','bone7.vti']
 muscle_list1 = ['muscle1_1.vti','muscle1_2.vti','muscle1_3.vti','muscle1_4.vti','muscle1_5.vti','muscle1_6.vti','muscle1_7.vti']
@@ -414,7 +414,7 @@ colors.SetColor('tendonColor', [153,153,255,255])
 
 # set the renderer
 ren = vtk.vtkRenderer()
-ren.SetBackground(0.2,0.2,0.2)
+ren.SetBackground(0.2,0.2,0.2) 
 
 # set the renderWindow
 renWin = vtk.vtkRenderWindow()
@@ -679,6 +679,17 @@ sliderMeniscusWidget.SetAnimationModeToAnimate()
 sliderMeniscusWidget.EnabledOn()
 
 sliderMeniscusWidget.AddObserver(vtk.vtkCommand.InteractionEvent, MeniscusOpacity(scalarMenis2))
+
+# Set up an initial view of the volume.  The focal point will be the
+# center of the volume, and the camera position will be 400mm to the
+# patient's left (which is our right).
+volreader = vtk.vtkDataSetReader()
+volreader.SetFileName('knee1_1.vtk')
+camera =  ren.GetActiveCamera()
+c = volumeKnee.GetCenter()
+camera.SetFocalPoint(c[0], c[1], c[2])
+camera.SetPosition(315, 192, 1019)
+camera.SetViewUp(0.98, 0.094, -0.122)
 
 
 renWin.Render()
