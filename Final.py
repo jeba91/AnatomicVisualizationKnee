@@ -378,13 +378,13 @@ class ChangeRenderStyle():
         ren.RemoveActor(volumeTendon1)
         ren.RemoveActor(volumeTendon2)
         ren.RemoveActor(volumeMenis2)
-        ren.AddActor(tendon2Actor)
-        ren.AddActor(tendon1Actor)
+        ren.AddActor(ligament1Actor)
+        ren.AddActor(ligament2Actor)
         ren.AddActor(boneActor)
         ren.AddActor(muscleActor1)
         ren.AddActor(muscleActor2)
-        ren.AddActor(ligament1Actor)
-        ren.AddActor(ligament2Actor)
+        ren.AddActor(tendon2Actor)
+        ren.AddActor(tendon1Actor)
         ren.AddActor(menisActor)
         ren.AddActor(skinActor)
 
@@ -429,7 +429,7 @@ colors.SetColor('tendonColor', [153,153,255,255])
 
 # set the renderer
 ren = vtk.vtkRenderer()
-ren.SetBackground(0.2,0.2,0.2) 
+ren.SetBackground(0.2,0.2,0.2)
 
 # set the renderWindow
 renWin = vtk.vtkRenderWindow()
@@ -472,8 +472,8 @@ menis.SetFileName(menis_list[0])
 
 
 skinColor = [float(177)/255,float(122)/255,float(101)/255]
-boneColor = [float(241)/255,float(214)/255,float(145)/255]
-muscleColor = [float(255)/255,float(255)/255,float(255)/255]
+boneColor = [float(255)/255,float(255)/255,float(255)/255]
+muscleColor = [float(192)/255,float(104)/255,float(88)/255]
 ligamentColor = [float(153)/255,float(255)/255,float(204)/255]
 meniscusColor = [float(255)/255,float(255)/255,float(153)/255]
 tendonColor = [float(153)/255,float(153)/255,float(204)/255]
@@ -536,40 +536,40 @@ pieceMenis2     = [0.1,0.9,1.0]
 volumeMenis2    = createVolumeRender(menis,scalarMenis2,colorMenis2,opacMenis2,pieceMenis2)
 
 
-
+smooth = 60
 
 # make the datasets
-skinActor = createKneeSkin(knee, 10, 8)
+skinActor = createKneeSkin(knee, 10, 20)
 skinActor.GetProperty().SetColor(colors.GetColor3d("SkinColor"))
 skinActor.GetProperty().SetOpacity(1)
 
 # make the bone actor:
-boneActor  = createKneeSkin(bones, 10, 10 )
+boneActor  = createKneeSkin(bones, 10, 10)
 boneActor.GetProperty().SetColor(colors.GetColor3d("white"))
 boneActor.GetProperty().SetOpacity(1)
 
 # make the muscle actor1:
-muscleActor1  = createKneeSkin(muscle1, 10, 20  )
+muscleActor1  = createKneeSkin(muscle1, 10, 15 )
 muscleActor1.GetProperty().SetColor(colors.GetColor3d("muscleColor"))
 muscleActor1.GetProperty().SetOpacity(1)
 
 # make the muscle actor2:
-muscleActor2  = createKneeSkin(muscle2, 10, 20 )
+muscleActor2  = createKneeSkin(muscle2, 10, 15 )
 muscleActor2.GetProperty().SetColor(colors.GetColor3d("muscleColor"))
 muscleActor2.GetProperty().SetOpacity(1)
 
 # make the ligament actors
-ligament1Actor = createKneeSkin(ligament1, 5, 5 )
+ligament1Actor = createKneeSkin(ligament1, 5, 5)
 ligament1Actor.GetProperty().SetColor(colors.GetColor3d("ligamentColor"))
 ligament1Actor.GetProperty().SetOpacity(1)
 
 # make the ligament actor:
-ligament2Actor  = createKneeSkin(ligament2, 5, 5 )
+ligament2Actor  = createKneeSkin(ligament2, 5, 5)
 ligament2Actor.GetProperty().SetColor(colors.GetColor3d("ligamentColor"))
 ligament2Actor.GetProperty().SetOpacity(1)
 
 # make the tendon actor:
-tendon1Actor  = createKneeSkin(tendon1, 10, 5 )
+tendon1Actor  = createKneeSkin(tendon1, 10, 5)
 tendon1Actor.GetProperty().SetColor(colors.GetColor3d("tendonColor"))
 tendon1Actor.GetProperty().SetOpacity(1)
 
@@ -579,25 +579,21 @@ tendon2Actor.GetProperty().SetColor(colors.GetColor3d("tendonColor"))
 tendon2Actor.GetProperty().SetOpacity(1)
 
 # make the menis actor:
-menisActor  = createKneeSkin(menis, 10, 5 )
+menisActor  = createKneeSkin(menis, 10, 10)
 menisActor.GetProperty().SetColor(colors.GetColor3d("MeniscusColor"))
 menisActor.GetProperty().SetOpacity(1)
 
 
 
 
-
-
-
 # Add the actors to the renderer
-
-ren.AddActor(tendon2Actor)
-ren.AddActor(tendon1Actor)
 ren.AddActor(ligament1Actor)
 ren.AddActor(ligament2Actor)
 ren.AddActor(boneActor)
 ren.AddActor(muscleActor1)
 ren.AddActor(muscleActor2)
+ren.AddActor(tendon2Actor)
+ren.AddActor(tendon1Actor)
 ren.AddActor(menisActor)
 ren.AddActor(skinActor)
 
@@ -721,35 +717,14 @@ text_representation = vtk.vtkTextRepresentation()
 text_representation.GetPositionCoordinate().SetValue(0.30, 0.15)
 text_representation.GetPosition2Coordinate().SetValue(0.5, 0.1)
 
-# Create the TextWidget
-# Note that the SelectableOff method MUST be invoked!
-# According to the documentation :
-#
-# SelectableOn/Off indicates whether the interior region of the widget can be
-# selected or not. If not, then events (such as left mouse down) allow the user
-# to "move" the widget, and no selection is possible. Otherwise the
-# SelectRegion() method is invoked.
+
+# text widget
 text_widget = vtk.vtkTextWidget()
 text_widget.SetRepresentation(text_representation)
 text_widget.SetInteractor(iren)
 text_widget.SetTextActor(text_actor)
 text_widget.SelectableOff()
 text_widget.On()
-
-
-# # camera
-
-# camera =vtk.vtkCamera();
-# camera.SetPosition(-360, -360,-360);
-# camera.SetFocalPoint(460, 460, 460);
-# camera.Elevation(-100)
-# ren.SetActiveCamera(camera)
-
-# for i in range(360):
-#   camera.Elevation(i)
-
-
-
 
 renWin.Render()
 iren.Initialize()
