@@ -544,15 +544,8 @@ pieceMenis2     = [0.1,0.9,1.0]
 volumeMenis2    = createVolumeRender(menis,scalarMenis2,colorMenis2,opacMenis2,pieceMenis2)
 
 
-<<<<<<< HEAD
 ### make the skin actor with isosurface ###
-skinActor = createKneeSkin(knee, 10, 10 )
-=======
-
-
-# make the datasets
 skinActor = createKneeSkin(knee, 10, 8)
->>>>>>> ca7109d1cb762a5863da204d8b21dbcacfa8af5e
 skinActor.GetProperty().SetColor(colors.GetColor3d("SkinColor"))
 skinActor.GetProperty().SetOpacity(1)
 
@@ -742,23 +735,6 @@ text_widget.SelectableOff()
 text_widget.On()
 
 
-<<<<<<< HEAD
-=======
-# # camera
-
-# camera =vtk.vtkCamera();
-# camera.SetPosition(-360, -360,-360);
-# camera.SetFocalPoint(460, 460, 460);
-# camera.Elevation(-100)
-# ren.SetActiveCamera(camera)
-
-# for i in range(360):
-#   camera.Elevation(i)
-
-
-
-
->>>>>>> ca7109d1cb762a5863da204d8b21dbcacfa8af5e
 renWin.Render()
 iren.Initialize()
 iren.Start()
