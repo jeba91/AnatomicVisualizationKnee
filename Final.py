@@ -346,7 +346,6 @@ class ChangeRenderStyle():
       self.muscle = muscle
 
     def __call__(self, caller, ev):
-      print(ren.GetActiveCamera())
       sliderWidget = caller
       value = sliderWidget.GetRepresentation().GetValue()
       if value >= 0.5:
@@ -404,19 +403,19 @@ def createSliderStyle(min,max,value,point1,point2,title,dim):
   SliderStyle.SetLabelHeight(dim[3])
   return SliderStyle
 
-knee_list   = ['skin_1.vti','skin_2.vti','skin_3.vti','skin_4.vti','skin_5.vti','skin_6.vti','skin_7.vti']
-# knee_list   = ['knee1_1.vtk','knee1_2.vtk','knee1_3.vtk','knee1_4.vtk','knee1_5.vtk','knee1_6.vtk','knee1_7.vtk']
-bone_list   = ['bone1.vti','bone2.vti','bone3.vti','bone4.vti','bone5.vti','bone6.vti','bone7.vti']
-muscle_list1 = ['muscle1_1.vti','muscle1_2.vti','muscle1_3.vti','muscle1_4.vti','muscle1_5.vti','muscle1_6.vti','muscle1_7.vti']
-muscle_list2 = ['muscle2_1.vti','muscle2_2.vti','muscle2_3.vti','muscle2_4.vti','muscle2_5.vti','muscle2_6.vti','muscle2_7.vti']
-ligament1_list = ['ligament1_1.vti','ligament1_2.vti','ligament1_3.vti','ligament1_4.vti','ligament1_5.vti','ligament1_6.vti','ligament1_7.vti']
-ligament2_list = ['ligament2_1.vti','ligament2_2.vti','ligament2_3.vti','ligament2_4.vti','ligament2_5.vti','ligament2_6.vti','ligament2_7.vti']
-tendon1_list = ['tendon1_1.vti','tendon1_2.vti','tendon1_3.vti','tendon1_4.vti','tendon1_5.vti','tendon1_6.vti','tendon1_7.vti']
-tendon2_list = ['tendon2_1.vti','tendon2_2.vti','tendon2_3.vti','tendon2_4.vti','tendon2_5.vti','tendon2_6.vti','tendon2_7.vti']
-menis_list = ['kneecap_1.vti','kneecap_2.vti','kneecap_3.vti','kneecap_4.vti','kneecap_5.vti','kneecap_6.vti','kneecap_7.vti']
+
+knee_list       = ['skin_1.vti','skin_2.vti','skin_3.vti','skin_4.vti','skin_5.vti','skin_6.vti','skin_7.vti']
+bone_list       = ['bone1.vti','bone2.vti','bone3.vti','bone4.vti','bone5.vti','bone6.vti','bone7.vti']
+muscle_list1    = ['muscle1_1.vti','muscle1_2.vti','muscle1_3.vti','muscle1_4.vti','muscle1_5.vti','muscle1_6.vti','muscle1_7.vti']
+muscle_list2    = ['muscle2_1.vti','muscle2_2.vti','muscle2_3.vti','muscle2_4.vti','muscle2_5.vti','muscle2_6.vti','muscle2_7.vti']
+ligament1_list  = ['ligament1_1.vti','ligament1_2.vti','ligament1_3.vti','ligament1_4.vti','ligament1_5.vti','ligament1_6.vti','ligament1_7.vti']
+ligament2_list  = ['ligament2_1.vti','ligament2_2.vti','ligament2_3.vti','ligament2_4.vti','ligament2_5.vti','ligament2_6.vti','ligament2_7.vti']
+tendon1_list    = ['tendon1_1.vti','tendon1_2.vti','tendon1_3.vti','tendon1_4.vti','tendon1_5.vti','tendon1_6.vti','tendon1_7.vti']
+tendon2_list    = ['tendon2_1.vti','tendon2_2.vti','tendon2_3.vti','tendon2_4.vti','tendon2_5.vti','tendon2_6.vti','tendon2_7.vti']
+menis_list      = ['kneecap_1.vti','kneecap_2.vti','kneecap_3.vti','kneecap_4.vti','kneecap_5.vti','kneecap_6.vti','kneecap_7.vti']
 
 
-#set the colors
+#set the colors rgba
 colors = vtk.vtkNamedColors()
 colors.SetColor("SkinColor", [177,122,101, 255])
 colors.SetColor('boneColor', [241,214,145,255])
@@ -425,7 +424,13 @@ colors.SetColor('ligamentColor',[153,255,204,255] )
 colors.SetColor('MeniscusColor', [255,255,153, 255])
 colors.SetColor('tendonColor', [153,153,255,255])
 
-
+#set the colors in normalized RGB
+skinColor = [float(177)/255,float(122)/255,float(101)/255]
+boneColor = [float(241)/255,float(214)/255,float(145)/255]
+muscleColor = [float(192)/255,float(104)/255,float(88)/255]
+ligamentColor = [float(153)/255,float(255)/255,float(204)/255]
+meniscusColor = [float(255)/255,float(255)/255,float(153)/255]
+tendonColor = [float(153)/255,float(153)/255,float(204)/255]
 
 # set the renderer
 ren = vtk.vtkRenderer()
@@ -436,7 +441,7 @@ renWin = vtk.vtkRenderWindow()
 renWin.AddRenderer(ren)
 renWin.SetSize(1000, 1500)
 
-# Set the interactore
+# Set the interactor
 iren = vtk.vtkRenderWindowInteractor()
 iren.SetInteractorStyle(MyInteractorStyle())
 iren.SetRenderWindow(renWin)
@@ -471,6 +476,8 @@ menis = vtk.vtkXMLImageDataReader()
 menis.SetFileName(menis_list[0])
 
 
+<<<<<<< HEAD
+=======
 skinColor = [float(177)/255,float(122)/255,float(101)/255]
 boneColor = [float(241)/255,float(214)/255,float(145)/255]
 muscleColor = [float(255)/255,float(255)/255,float(255)/255]
@@ -478,11 +485,12 @@ ligamentColor = [float(153)/255,float(255)/255,float(204)/255]
 meniscusColor = [float(255)/255,float(255)/255,float(153)/255]
 tendonColor = [float(153)/255,float(153)/255,float(204)/255]
 
+>>>>>>> ca7109d1cb762a5863da204d8b21dbcacfa8af5e
 ### Volume Rendering Skin ###
-scalarKnee  = [50,100,200,300]
+scalarKnee  = [50,51,1100,1101]
 colorKnee   = [[0.0, 0.0, 0.0],skinColor,skinColor,[0.0,0.0,0.0]]
-opacKnee    = [0.00,0.10,0.25,0.00]
-pieceKnee   = [0.0,0.1,0.2]
+opacKnee    = [0.00,0.03,0.03,0.00]
+pieceKnee   = [0.1,0.9,1.0]
 volumeKnee  = createVolumeRender(knee,scalarKnee,colorKnee,opacKnee,pieceKnee)
 
 ### Volume Rendering Bone ###
@@ -495,12 +503,12 @@ volumeBone  = createVolumeRender(bones,scalarBone,colorBone,opacBone,pieceBone)
 ### Volume Rendering Muscle ###
 scalarMuscle    = [50,51,1100,1101]
 colorMuscle     = [[0.0, 0.0, 0.0],muscleColor,muscleColor,[0.0,0.0,0.0]]
-opacMuscle      = [0.00,0.5,0.5,0.00]
+opacMuscle      = [0.00,1.0,1.0,0.00]
 pieceMuscle     = [0.1,0.9,1.0]
 volumeMuscle1    = createVolumeRender(muscle1,scalarMuscle,colorMuscle,opacMuscle,pieceMuscle)
 volumeMuscle2    = createVolumeRender(muscle2,scalarMuscle,colorMuscle,opacMuscle,pieceMuscle)
 
-# volume rendering for ligament
+### Volume rendering for Ligament ###
 scalarLigament1    = [50,51,1100,1101]
 colorLigament1     = [[0.0, 0.0, 0.0],ligamentColor,ligamentColor,[0.0,0.0,0.0]]
 opacLigament1      = [0.00,0.5,0.5,0.00]
@@ -514,21 +522,21 @@ opacLigament2      = [0.00,0.5,0.5,0.00]
 pieceLigament2     = [0.1,0.9,1.0]
 volumeLigament2    = createVolumeRender(ligament2,scalarLigament2,colorLigament2,opacLigament2,pieceLigament2)
 
-# volume rendering for tendon
+### Volume rendering for Tendon ###
 scalarTendon1    = [50,51,1100,1101]
 colorTendon1     = [[0.0, 0.0, 0.0],tendonColor,tendonColor,[0.0,0.0,0.0]]
 opacTendon1      = [0.00,0.5,0.5,0.00]
 pieceTendon1     = [0.1,0.9,1.0]
 volumeTendon1    = createVolumeRender(tendon1,scalarTendon1,colorTendon1,opacTendon1,pieceTendon1)
 
-### Volume Rendering tendon ###
+### Volume Rendering for Tendon ###
 scalarTendon2    = [50,51,1100,1101]
 colorTendon2     = [[0.0, 0.0, 0.0],tendonColor,tendonColor,[0.0,0.0,0.0]]
 opacTendon2      = [0.00,0.5,0.5,0.00]
 pieceTendon2     = [0.1,0.9,1.0]
 volumeTendon2    = createVolumeRender(tendon2,scalarTendon2,colorTendon2,opacTendon2,pieceTendon2)
 
-## meniscus
+### Volume Rendering for Meniscus ###
 scalarMenis2    = [50,51,1100,1101]
 colorMenis2     = [[0.0, 0.0, 0.0],meniscusColor,meniscusColor,[0.0,0.0,0.0]]
 opacMenis2      = [0.00,0.5,0.5,0.00]
@@ -536,61 +544,61 @@ pieceMenis2     = [0.1,0.9,1.0]
 volumeMenis2    = createVolumeRender(menis,scalarMenis2,colorMenis2,opacMenis2,pieceMenis2)
 
 
+<<<<<<< HEAD
+### make the skin actor with isosurface ###
+skinActor = createKneeSkin(knee, 10, 10 )
+=======
 
 
 # make the datasets
 skinActor = createKneeSkin(knee, 10, 8)
+>>>>>>> ca7109d1cb762a5863da204d8b21dbcacfa8af5e
 skinActor.GetProperty().SetColor(colors.GetColor3d("SkinColor"))
 skinActor.GetProperty().SetOpacity(1)
 
-# make the bone actor:
+### make the bone actor with isosurface ###
 boneActor  = createKneeSkin(bones, 10, 10 )
 boneActor.GetProperty().SetColor(colors.GetColor3d("white"))
 boneActor.GetProperty().SetOpacity(1)
 
-# make the muscle actor1:
+### make the muscle actor1 with isosurface ###
 muscleActor1  = createKneeSkin(muscle1, 10, 20  )
 muscleActor1.GetProperty().SetColor(colors.GetColor3d("muscleColor"))
 muscleActor1.GetProperty().SetOpacity(1)
 
-# make the muscle actor2:
+### make the muscle actor2 with isosurface ###
 muscleActor2  = createKneeSkin(muscle2, 10, 20 )
 muscleActor2.GetProperty().SetColor(colors.GetColor3d("muscleColor"))
 muscleActor2.GetProperty().SetOpacity(1)
 
-# make the ligament actors
+### make the ligament actor1 with isosurface ###
 ligament1Actor = createKneeSkin(ligament1, 5, 5 )
 ligament1Actor.GetProperty().SetColor(colors.GetColor3d("ligamentColor"))
 ligament1Actor.GetProperty().SetOpacity(1)
 
-# make the ligament actor:
+### make the ligament actor2 with isosurface ###
 ligament2Actor  = createKneeSkin(ligament2, 5, 5 )
 ligament2Actor.GetProperty().SetColor(colors.GetColor3d("ligamentColor"))
 ligament2Actor.GetProperty().SetOpacity(1)
 
-# make the tendon actor:
+### make the tendon actor1 with isosurface ###
 tendon1Actor  = createKneeSkin(tendon1, 10, 5 )
 tendon1Actor.GetProperty().SetColor(colors.GetColor3d("tendonColor"))
 tendon1Actor.GetProperty().SetOpacity(1)
 
-# make the tendon actor:
+### make the tendon actor2 with isosurface ###
 tendon2Actor = createKneeSkin(tendon2, 10, 5 )
 tendon2Actor.GetProperty().SetColor(colors.GetColor3d("tendonColor"))
 tendon2Actor.GetProperty().SetOpacity(1)
 
-# make the menis actor:
+### make the meniscus actor with isosurface ###
 menisActor  = createKneeSkin(menis, 10, 5 )
 menisActor.GetProperty().SetColor(colors.GetColor3d("MeniscusColor"))
 menisActor.GetProperty().SetOpacity(1)
 
 
 
-
-
-
-
 # Add the actors to the renderer
-
 ren.AddActor(tendon2Actor)
 ren.AddActor(tendon1Actor)
 ren.AddActor(ligament1Actor)
@@ -698,11 +706,8 @@ sliderMeniscusWidget.EnabledOn()
 
 sliderMeniscusWidget.AddObserver(vtk.vtkCommand.InteractionEvent, MeniscusOpacity(scalarMenis2))
 
-# Set up an initial view of the volume.  The focal point will be the
-# center of the volume, and the camera position will be 400mm to the
-# patient's left (which is our right).
-volreader = vtk.vtkDataSetReader()
-volreader.SetFileName('knee1_1.vtk')
+
+### setup initial camera positon ###
 camera =  ren.GetActiveCamera()
 c = volumeKnee.GetCenter()
 camera.SetFocalPoint(c[0], c[1], c[2])
@@ -737,6 +742,8 @@ text_widget.SelectableOff()
 text_widget.On()
 
 
+<<<<<<< HEAD
+=======
 # # camera
 
 # camera =vtk.vtkCamera();
@@ -751,6 +758,7 @@ text_widget.On()
 
 
 
+>>>>>>> ca7109d1cb762a5863da204d8b21dbcacfa8af5e
 renWin.Render()
 iren.Initialize()
 iren.Start()
