@@ -476,16 +476,6 @@ menis = vtk.vtkXMLImageDataReader()
 menis.SetFileName(menis_list[0])
 
 
-<<<<<<< HEAD
-=======
-skinColor = [float(177)/255,float(122)/255,float(101)/255]
-boneColor = [float(241)/255,float(214)/255,float(145)/255]
-muscleColor = [float(255)/255,float(255)/255,float(255)/255]
-ligamentColor = [float(153)/255,float(255)/255,float(204)/255]
-meniscusColor = [float(255)/255,float(255)/255,float(153)/255]
-tendonColor = [float(153)/255,float(153)/255,float(204)/255]
-
->>>>>>> ca7109d1cb762a5863da204d8b21dbcacfa8af5e
 ### Volume Rendering Skin ###
 scalarKnee  = [50,51,1100,1101]
 colorKnee   = [[0.0, 0.0, 0.0],skinColor,skinColor,[0.0,0.0,0.0]]
