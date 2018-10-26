@@ -473,7 +473,7 @@ menis.SetFileName(menis_list[0])
 
 skinColor = [float(177)/255,float(122)/255,float(101)/255]
 boneColor = [float(241)/255,float(214)/255,float(145)/255]
-muscleColor = [float(192)/255,float(104)/255,float(88)/255]
+muscleColor = [float(255)/255,float(255)/255,float(255)/255]
 ligamentColor = [float(153)/255,float(255)/255,float(204)/255]
 meniscusColor = [float(255)/255,float(255)/255,float(153)/255]
 tendonColor = [float(153)/255,float(153)/255,float(204)/255]
@@ -539,49 +539,49 @@ volumeMenis2    = createVolumeRender(menis,scalarMenis2,colorMenis2,opacMenis2,p
 
 
 # make the datasets
-skinActor = createKneeSkin(knee, 10, 10 )
+skinActor = createKneeSkin(knee, 10, 8)
 skinActor.GetProperty().SetColor(colors.GetColor3d("SkinColor"))
-skinActor.GetProperty().SetOpacity(0.2)
+skinActor.GetProperty().SetOpacity(1)
 
 # make the bone actor:
 boneActor  = createKneeSkin(bones, 10, 10 )
 boneActor.GetProperty().SetColor(colors.GetColor3d("white"))
-boneActor.GetProperty().SetOpacity(0.9)
+boneActor.GetProperty().SetOpacity(1)
 
 # make the muscle actor1:
 muscleActor1  = createKneeSkin(muscle1, 10, 20  )
 muscleActor1.GetProperty().SetColor(colors.GetColor3d("muscleColor"))
-muscleActor1.GetProperty().SetOpacity(0.9)
+muscleActor1.GetProperty().SetOpacity(1)
 
 # make the muscle actor2:
 muscleActor2  = createKneeSkin(muscle2, 10, 20 )
 muscleActor2.GetProperty().SetColor(colors.GetColor3d("muscleColor"))
-muscleActor2.GetProperty().SetOpacity(0.9)
+muscleActor2.GetProperty().SetOpacity(1)
 
 # make the ligament actors
 ligament1Actor = createKneeSkin(ligament1, 5, 5 )
 ligament1Actor.GetProperty().SetColor(colors.GetColor3d("ligamentColor"))
-ligament1Actor.GetProperty().SetOpacity(0.6)
+ligament1Actor.GetProperty().SetOpacity(1)
 
 # make the ligament actor:
 ligament2Actor  = createKneeSkin(ligament2, 5, 5 )
 ligament2Actor.GetProperty().SetColor(colors.GetColor3d("ligamentColor"))
-ligament2Actor.GetProperty().SetOpacity(0.9)
+ligament2Actor.GetProperty().SetOpacity(1)
 
 # make the tendon actor:
 tendon1Actor  = createKneeSkin(tendon1, 10, 5 )
 tendon1Actor.GetProperty().SetColor(colors.GetColor3d("tendonColor"))
-tendon1Actor.GetProperty().SetOpacity(0.9)
+tendon1Actor.GetProperty().SetOpacity(1)
 
 # make the tendon actor:
 tendon2Actor = createKneeSkin(tendon2, 10, 5 )
 tendon2Actor.GetProperty().SetColor(colors.GetColor3d("tendonColor"))
-tendon2Actor.GetProperty().SetOpacity(0.2)
+tendon2Actor.GetProperty().SetOpacity(1)
 
 # make the menis actor:
 menisActor  = createKneeSkin(menis, 10, 5 )
 menisActor.GetProperty().SetColor(colors.GetColor3d("MeniscusColor"))
-menisActor.GetProperty().SetOpacity(0.9)
+menisActor.GetProperty().SetOpacity(1)
 
 
 
@@ -612,41 +612,6 @@ sliderWidgetN1.SetAnimationModeToAnimate()
 sliderWidgetN1.EnabledOn()
 sliderWidgetN1.AddObserver(vtk.vtkCommand.InteractionEvent, SliderCallbackN1(knee, bones, muscle1, muscle2, ligament1, ligament2, tendon1, tendon2, menis))
 
-### Skin Opacity Slider ###
-StyleDim = [0.008,0.008,0.015,0.015]
-StyleSkin = createSliderStyle(0,100,20,[0.75,0.9],[0.95,0.9], "Skin opacity", StyleDim)
-
-sliderSkinWidget = vtk.vtkSliderWidget()
-sliderSkinWidget.SetInteractor(iren)
-sliderSkinWidget.SetRepresentation(StyleSkin)
-sliderSkinWidget.SetAnimationModeToAnimate()
-sliderSkinWidget.EnabledOn()
-
-sliderSkinWidget.AddObserver(vtk.vtkCommand.InteractionEvent, SliderOpacity(scalarKnee))
-
-### Bone Opacity Slider ###
-StyleDim = [0.008,0.008,0.015,0.015]
-styleBone = createSliderStyle(0,100,20,[0.75,0.8],[0.95,0.8], "Bone opacity", StyleDim)
-
-sliderBoneWidget = vtk.vtkSliderWidget()
-sliderBoneWidget.SetInteractor(iren)
-sliderBoneWidget.SetRepresentation(styleBone)
-sliderBoneWidget.SetAnimationModeToAnimate()
-sliderBoneWidget.EnabledOn()
-
-sliderBoneWidget.AddObserver(vtk.vtkCommand.InteractionEvent, BoneOpacity(scalarBone))
-
-### Muscle Opacity Slider ###
-StyleDim = [0.008,0.008,0.015,0.015]
-styleMuscle = createSliderStyle(0,100,20,[0.75,0.7],[0.95,0.7], "Muscle opacity", StyleDim)
-
-sliderMuscleWidget = vtk.vtkSliderWidget()
-sliderMuscleWidget.SetInteractor(iren)
-sliderMuscleWidget.SetRepresentation(styleMuscle)
-sliderMuscleWidget.SetAnimationModeToAnimate()
-sliderMuscleWidget.EnabledOn()
-
-sliderMuscleWidget.AddObserver(vtk.vtkCommand.InteractionEvent, MuscleOpacity(scalarMuscle))
 
 ### Render Style Slider ###
 StyleDim = [0.008,0.008,0.015,0.015]
@@ -660,8 +625,46 @@ SliderStyleWidget.EnabledOn()
 SliderStyleWidget.AddObserver(vtk.vtkCommand.InteractionEvent, ChangeRenderStyle(muscle1))
 
 
+
+### Skin Opacity Slider ###
 StyleDim = [0.008,0.008,0.015,0.015]
-styleTendon = createSliderStyle(0,100,20,[0.75,0.6],[0.95,0.6], "Tendon opacity", StyleDim)
+StyleSkin = createSliderStyle(0,100,100,[0.75,0.9],[0.95,0.9], "Skin opacity", StyleDim)
+
+sliderSkinWidget = vtk.vtkSliderWidget()
+sliderSkinWidget.SetInteractor(iren)
+sliderSkinWidget.SetRepresentation(StyleSkin)
+sliderSkinWidget.SetAnimationModeToAnimate()
+sliderSkinWidget.EnabledOn()
+
+sliderSkinWidget.AddObserver(vtk.vtkCommand.InteractionEvent, SliderOpacity(scalarKnee))
+
+### Bone Opacity Slider ###
+StyleDim = [0.008,0.008,0.015,0.015]
+styleBone = createSliderStyle(0,100,100,[0.75,0.8],[0.95,0.8], "Bone opacity", StyleDim)
+
+sliderBoneWidget = vtk.vtkSliderWidget()
+sliderBoneWidget.SetInteractor(iren)
+sliderBoneWidget.SetRepresentation(styleBone)
+sliderBoneWidget.SetAnimationModeToAnimate()
+sliderBoneWidget.EnabledOn()
+
+sliderBoneWidget.AddObserver(vtk.vtkCommand.InteractionEvent, BoneOpacity(scalarBone))
+
+### Muscle Opacity Slider ###
+StyleDim = [0.008,0.008,0.015,0.015]
+styleMuscle = createSliderStyle(0,100,100,[0.75,0.7],[0.95,0.7], "Muscle opacity", StyleDim)
+
+sliderMuscleWidget = vtk.vtkSliderWidget()
+sliderMuscleWidget.SetInteractor(iren)
+sliderMuscleWidget.SetRepresentation(styleMuscle)
+sliderMuscleWidget.SetAnimationModeToAnimate()
+sliderMuscleWidget.EnabledOn()
+
+sliderMuscleWidget.AddObserver(vtk.vtkCommand.InteractionEvent, MuscleOpacity(scalarMuscle))
+
+
+StyleDim = [0.008,0.008,0.015,0.015]
+styleTendon = createSliderStyle(0,100,100,[0.75,0.6],[0.95,0.6], "Tendon opacity", StyleDim)
 
 sliderTendonWidget = vtk.vtkSliderWidget()
 sliderTendonWidget.SetInteractor(iren)
@@ -673,7 +676,7 @@ sliderTendonWidget.AddObserver(vtk.vtkCommand.InteractionEvent, TendonOpacity(sc
 
 
 StyleDim = [0.008,0.008,0.015,0.015]
-styleLigament = createSliderStyle(0,100,20,[0.75,0.5],[0.95,0.5], "Ligament opacity", StyleDim)
+styleLigament = createSliderStyle(0,100,100,[0.75,0.5],[0.95,0.5], "Ligament opacity", StyleDim)
 
 sliderLigamentWidget = vtk.vtkSliderWidget()
 sliderLigamentWidget.SetInteractor(iren)
@@ -685,7 +688,7 @@ sliderLigamentWidget.AddObserver(vtk.vtkCommand.InteractionEvent, LigamentOpacit
 
 
 StyleDim = [0.008,0.008,0.015,0.015]
-styleMeniscus = createSliderStyle(0,100,20,[0.75,0.4],[0.95,0.4], "Meniscus opacity", StyleDim)
+styleMeniscus = createSliderStyle(0,100,100,[0.75,0.4],[0.95,0.4], "Meniscus opacity", StyleDim)
 
 sliderMeniscusWidget = vtk.vtkSliderWidget()
 sliderMeniscusWidget.SetInteractor(iren)
@@ -723,16 +726,16 @@ text_widget.SelectableOff()
 text_widget.On()
 
 
-# camera
+# # camera
 
-camera =vtk.vtkCamera();
-camera.SetPosition(-360, -360,-360);
-camera.SetFocalPoint(460, 460, 460);
-camera.Elevation(-100)
-ren.SetActiveCamera(camera)
+# camera =vtk.vtkCamera();
+# camera.SetPosition(-360, -360,-360);
+# camera.SetFocalPoint(460, 460, 460);
+# camera.Elevation(-100)
+# ren.SetActiveCamera(camera)
 
-for i in range(360):
-  camera.Elevation(i)
+# for i in range(360):
+#   camera.Elevation(i)
 
 
 
